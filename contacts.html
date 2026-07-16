@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Контакты — Zh.Stom</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --green: #65bd73;
+      --green-dark: #3f9e51;
+      --green-light: #eaf8ee;
+      --black: #0b0f0d;
+      --muted: #647067;
+      --line: rgba(15, 23, 42, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      background: #ffffff;
+      color: var(--black);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      overflow-x: hidden;
+    }
+
+    a,
+    button { -webkit-tap-highlight-color: transparent; }
+
+    a { text-decoration: none; }
+
+    img,
+    svg {
+      max-width: 100%;
+      display: block;
+    }
+
+    .site-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(15, 23, 42, 0.07);
+      transition: box-shadow 0.3s ease, background 0.3s ease;
+    }
+
+    .site-header.scrolled {
+      background: rgba(255, 255, 255, 0.98);
+      box-shadow: 0 18px 45px rgba(15, 23, 42, 0.08);
+    }
+
+    .logo-mark {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #a8e6b0, #56b96b);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 24px;
+      font-weight: 900;
+      box-shadow: 0 12px 28px rgba(101, 189, 115, 0.28);
+      flex: 0 0 auto;
+    }
+
+    .nav-link {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      color: #0b0f0d;
+      font-size: 14px;
+      font-weight: 700;
+      white-space: nowrap;
+      line-height: 1;
+      transition: color 0.25s ease;
+    }
+
+    .nav-arrow {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 12px;
+      height: 12px;
+      font-size: 11px;
+      transform: translateY(1px);
+    }
+
+    .nav-link::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -8px;
+      width: 0;
+      height: 2px;
+      border-radius: 999px;
+      background: var(--green);
+      transition: width 0.25s ease;
+    }
+
+    .nav-link:hover,
+    .nav-link.active {
+      color: var(--green);
+    }
+
+    .nav-link:hover::after,
+    .nav-link.active::after {
+      width: 100%;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding-top: 132px;
+      padding-bottom: 94px;
+      background:
+        radial-gradient(circle at 86% 18%, rgba(101, 189, 115, 0.16), transparent 29%),
+        radial-gradient(circle at 9% 76%, rgba(101, 189, 115, 0.10), transparent 28%),
+        linear-gradient(180deg, #ffffff 0%, #fbfffc 100%);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 16px;
+      border-radius: 999px;
+      background: var(--green-light);
+      color: #2d7f3d;
+      font-weight: 900;
+      font-size: 14px;
+    }
+
+    .clean-card {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 30px;
+      background: rgba(255,255,255,0.92);
+      box-shadow: 0 24px 60px rgba(15, 23, 42, 0.06);
+      transition: transform .28s ease, box-shadow .28s ease, border-color .28s ease;
+    }
+
+    .clean-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(101, 189, 115, 0.28);
+      box-shadow: 0 36px 90px rgba(15, 23, 42, 0.10);
+    }
+
+    .contact-icon {
+      width: 60px;
+      height: 60px;
+      min-width: 60px;
+      border-radius: 22px;
+      background: var(--green-light);
+      color: var(--green);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      box-shadow: inset 0 0 0 1px rgba(101, 189, 115, 0.16);
+    }
+
+    .map-box {
+      min-height: 560px;
+      border-radius: 34px;
+      overflow: hidden;
+      position: relative;
+      background: #eef8f0;
+      border: 1px solid rgba(15,23,42,0.08);
+      box-shadow: 0 30px 90px rgba(15,23,42,0.08);
+    }
+
+    .map-grid {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.20));
+    }
+
+    .map-frame {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+      filter: saturate(0.92) contrast(1.03);
+    }
+
+    .map-info-card {
+      position: absolute;
+      left: 28px;
+      right: 28px;
+      bottom: 28px;
+      z-index: 2;
+      max-width: 470px;
+    }
+
+    .premium-footer {
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 86% 16%, rgba(101, 189, 115, 0.24), transparent 28%),
+        radial-gradient(circle at 12% 82%, rgba(101, 189, 115, 0.14), transparent 26%),
+        linear-gradient(135deg, #070b0a 0%, #111b15 48%, #07100a 100%);
+      color: white;
+    }
+
+    .premium-footer::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
+      background-size: 54px 54px;
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,0.55), transparent 78%);
+    }
+
+    .footer-card {
+      position: relative;
+      z-index: 1;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.055);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-radius: 30px;
+    }
+
+    .footer-link {
+      display: inline-flex;
+      color: rgba(255,255,255,0.68);
+      font-weight: 700;
+      transition: .25s ease;
+    }
+
+    .footer-link:hover {
+      color: #90df9d;
+      transform: translateX(4px);
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 1120px) {
+      .desktop-nav,
+      .desktop-contact {
+        display: none;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .hero {
+        padding-top: 108px;
+        padding-bottom: 62px;
+      }
+
+      .logo-mark {
+        width: 42px;
+        height: 42px;
+        font-size: 21px;
+      }
+
+      .map-box {
+        min-height: 520px;
+      }
+
+      .map-info-card {
+        left: 16px;
+        right: 16px;
+        bottom: 16px;
+        max-width: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header" id="siteHeader">
+    <div class="max-w-7xl mx-auto px-6 h-[78px] flex items-center justify-between gap-5">
+      <a href="index.html" class="flex items-center gap-3" id="secretAdminTrigger">
+        <div class="logo-mark">🦷</div>
+        <div>
+          <div class="text-2xl font-black tracking-tight leading-none">Zh.Stom</div>
+          <div class="text-[11px] text-gray-500 mt-1 whitespace-nowrap">Стоматология нового поколения</div>
+        </div>
+      </a>
+
+      <nav class="desktop-nav flex items-center gap-5">
+        <a href="index.html" class="nav-link">Главная</a>
+        <a href="services.html" class="nav-link">Услуги <span class="nav-arrow">▾</span></a>
+        <a href="about.html" class="nav-link">О клинике <span class="nav-arrow">▾</span></a>
+        <a href="contacts.html" class="nav-link active">Контакты</a>
+      </nav>
+
+      <div class="desktop-contact flex items-center gap-3 shrink-0">
+        <a href="tel:+77473599407" class="flex items-center gap-2 shrink-0 whitespace-nowrap">
+          <span class="w-9 h-9 rounded-full bg-[#eaf8ee] text-[#65bd73] flex items-center justify-center shrink-0">☎</span>
+          <span class="flex flex-col leading-none whitespace-nowrap">
+            <span class="block font-black text-[13px] whitespace-nowrap">+7 747 359 9407</span>
+            <span class="block text-[11px] text-gray-500 mt-1 whitespace-nowrap">Ежедневно 9:00–21:00</span>
+          </span>
+        </a>
+        <a href="appointment.html" class="px-4 py-3 rounded-xl border border-[#65bd73] text-[#65bd73] font-black text-sm whitespace-nowrap hover:bg-[#65bd73] hover:text-white transition">
+          Записаться на приём
+        </a>
+      </div>
+
+      <a href="appointment.html" class="lg:hidden px-4 py-2 rounded-xl bg-[#65bd73] text-white font-black text-sm">
+        Запись
+      </a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="grid lg:grid-cols-[1fr_0.95fr] gap-12 items-center">
+          <div class="reveal">
+            <div class="badge mb-7">✦ Контакты Zh.Stom</div>
+            <h1 class="text-5xl md:text-7xl font-black leading-[0.95] tracking-tight mb-7">
+              Мы рядом<br>
+              <span class="text-[#65bd73]">в Алматы</span>
+            </h1>
+            <p class="text-xl text-[#647067] leading-8 max-w-2xl mb-9">
+              Свяжитесь с нами любым удобным способом: звонок, WhatsApp или онлайн-запись. Мы поможем подобрать время и врача.
+            </p>
+
+            <div class="grid sm:grid-cols-2 gap-5">
+              <div class="clean-card p-6">
+                <div class="contact-icon mb-5">☎</div>
+                <div class="text-xl font-black mb-2">Телефон</div>
+                <a href="tel:+77473599407" class="text-[#65bd73] font-black text-lg">+7 747 359 9407</a>
+                <p class="text-[#647067] mt-3 leading-7">Ежедневно с 9:00 до 21:00</p>
+              </div>
+
+              <div class="clean-card p-6">
+                <div class="contact-icon mb-5">⌂</div>
+                <div class="text-xl font-black mb-2">Адрес</div>
+                <div class="font-black text-lg">Алматы, ул. Ади Шарипова, 34А</div>
+                <p class="text-[#647067] mt-3 leading-7">Удобная локация в центре города</p>
+              </div>
+
+              <div class="clean-card p-6 sm:col-span-2">
+                <div class="contact-icon mb-5">💬</div>
+                <div class="text-xl font-black mb-2">WhatsApp</div>
+                <a href="https://wa.me/77473599407" target="_blank" rel="noopener" class="text-[#65bd73] font-black text-lg">Написать в WhatsApp</a>
+                <p class="text-[#647067] mt-3 leading-7">Основной номер клиники также подключён к WhatsApp.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="map-box reveal">
+            <iframe
+              class="map-frame"
+              src="https://www.google.com/maps?q=%D0%90%D0%BB%D0%BC%D0%B0%D1%82%D1%8B,%20%D1%83%D0%BB.%20%D0%90%D0%B4%D0%B8%20%D0%A8%D0%B0%D1%80%D0%B8%D0%BF%D0%BE%D0%B2%D0%B0,%2034%D0%90&z=17&output=embed"
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+              allowfullscreen>
+            </iframe>
+
+            <div class="map-grid"></div>
+
+            <div class="map-info-card clean-card p-6 bg-white/92 backdrop-blur-xl">
+              <div class="badge mb-5">Локация клиники</div>
+              <h2 class="text-3xl font-black mb-4">Zh.Stom Алматы</h2>
+              <p class="text-[#647067] leading-8 mb-6">
+                Алматы, ул. Ади Шарипова, 34А. Нажмите кнопку ниже, чтобы открыть маршрут в Google Maps.
+              </p>
+
+              <div class="flex flex-col sm:flex-row gap-3">
+                <a href="https://www.google.com/maps/place/ул.+Шарипова+34а,+Алматы+050000/@43.255204,76.919735,17z/data=!3m1!4b1!4m6!3m5!1s0x38836eb3b92002eb:0x46f8f7554d62a7dd!8m2!3d43.2552001!4d76.9223099!16s%2Fg%2F11yslqpgbp?entry=ttu&g_ep=EgoyMDI2MDUxMy4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener" class="inline-flex items-center justify-center bg-[#65bd73] text-white px-5 py-3 rounded-xl font-black hover:scale-105 transition">
+                  Открыть маршрут →
+                </a>
+                <a href="https://wa.me/77473599407" target="_blank" rel="noopener" class="inline-flex items-center justify-center bg-white border border-gray-200 text-[#0b0f0d] px-5 py-3 rounded-xl font-black hover:border-[#65bd73] transition">
+                  WhatsApp
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="premium-footer px-6 py-16 md:py-20">
+    <div class="max-w-7xl mx-auto relative z-10">
+      <div class="footer-card p-8 md:p-10 mb-10">
+        <div class="grid lg:grid-cols-[1.15fr_0.85fr] gap-10 items-center">
+          <div>
+            <div class="inline-flex items-center gap-3 mb-6">
+              <div class="logo-mark">🦷</div>
+              <div>
+                <div class="text-3xl font-black tracking-tight leading-none">Zh.Stom</div>
+                <div class="text-white/50 text-sm mt-2">Стоматология нового поколения в Алматы</div>
+              </div>
+            </div>
+
+            <h2 class="text-4xl md:text-5xl font-black leading-tight tracking-tight mb-5">
+              Свяжитесь с нами в любое время
+            </h2>
+
+            <p class="text-white/65 text-lg leading-8 max-w-2xl">
+              Поможем подобрать удобное время приёма, расскажем об услугах и ответим на вопросы.
+            </p>
+          </div>
+
+          <div class="lg:text-right">
+            <a href="appointment.html" class="inline-flex items-center justify-center bg-[#65bd73] text-white px-8 py-4 rounded-2xl font-black text-lg hover:scale-105 hover:shadow-xl hover:shadow-green-900/20 transition-all duration-300">
+              Онлайн-запись →
+            </a>
+            <p class="text-white/45 font-semibold mt-5">Ежедневно с 9:00 до 21:00</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 pb-10 border-b border-white/10">
+        <div>
+          <h3 class="font-black text-lg mb-5">Навигация</h3>
+          <div class="space-y-3">
+            <a href="index.html" class="footer-link">Главная</a><br>
+            <a href="services.html" class="footer-link">Услуги</a><br>
+            <a href="about.html" class="footer-link">О клинике</a><br>
+            <a href="contacts.html" class="footer-link">Контакты</a>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="font-black text-lg mb-5">Контакты</h3>
+          <div class="space-y-3 text-white/65 font-semibold">
+            <a href="tel:+77473599407" class="footer-link">+7 747 359 9407</a><br>
+            <a href="https://wa.me/77473599407" target="_blank" rel="noopener" class="footer-link">WhatsApp</a><br>
+            <div>Алматы, ул. Ади Шарипова, 34А</div>
+            <div>Ежедневно 9:00–21:00</div>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="font-black text-lg mb-5">Популярные услуги</h3>
+          <div class="space-y-3">
+            <a href="services.html" class="footer-link">Лечение зубов</a><br>
+            <a href="services.html" class="footer-link">Профессиональная гигиена</a><br>
+            <a href="services.html" class="footer-link">Имплантация</a>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="font-black text-lg mb-5">Zh.Stom</h3>
+          <p class="text-white/65 leading-8">
+            Современная стоматология с комфортным сервисом и понятным подходом к лечению.
+          </p>
+        </div>
+      </div>
+
+      <div class="flex flex-col md:flex-row items-center justify-between gap-4 pt-8 text-white/45 font-semibold">
+        <p>© 2026 Zh.Stom. Все права защищены.</p>
+        <p>Стоматология нового уровня в Алматы</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+  const secretAdminTrigger = document.getElementById('secretAdminTrigger');
+
+  let adminClicks = 0;
+  let clickTimer;
+
+  if (secretAdminTrigger) {
+    secretAdminTrigger.addEventListener('click', (event) => {
+      event.preventDefault();
+
+      adminClicks++;
+
+      clearTimeout(clickTimer);
+
+      clickTimer = setTimeout(() => {
+        adminClicks = 0;
+      }, 1500);
+
+      if (adminClicks >= 3) {
+        const pin = prompt('Введите PIN-код');
+
+        if (pin === '7777') {
+          window.location.href = 'admin.html';
+        } else {
+          alert('Неверный PIN-код');
+        }
+
+        adminClicks = 0;
+      }
+    });
+  }
+</script>
+
+  <script>
+    const siteHeader = document.getElementById('siteHeader');
+
+    if (siteHeader) {
+      const updateHeaderState = () => {
+        if (window.scrollY > 12) {
+          siteHeader.classList.add('scrolled');
+        } else {
+          siteHeader.classList.remove('scrolled');
+        }
+      };
+
+      updateHeaderState();
+      window.addEventListener('scroll', updateHeaderState, { passive: true });
+    }
+
+    const reveals = document.querySelectorAll('.reveal');
+
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('active');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15 });
+
+      reveals.forEach(el => observer.observe(el));
+    } else {
+      reveals.forEach(el => el.classList.add('active'));
+    }
+  </script>
+</body>
+</html>

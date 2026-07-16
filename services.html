@@ -1,0 +1,822 @@
+
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Услуги — Zh.Stom</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --green: #65bd73;
+      --green-dark: #3f9e51;
+      --green-light: #eaf8ee;
+      --black: #0b0f0d;
+      --muted: #647067;
+      --line: rgba(15, 23, 42, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: #ffffff;
+      color: var(--black);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      overflow-x: hidden;
+    }
+
+    a,
+    button {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    img,
+    svg {
+      max-width: 100%;
+      display: block;
+    }
+
+    section {
+      position: relative;
+    }
+
+    .site-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(15, 23, 42, 0.07);
+      transition: box-shadow 0.3s ease, background 0.3s ease;
+    }
+
+    .site-header.scrolled {
+      background: rgba(255, 255, 255, 0.98);
+      box-shadow: 0 18px 45px rgba(15, 23, 42, 0.08);
+    }
+
+    .logo-mark {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #a8e6b0, #56b96b);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 24px;
+      font-weight: 900;
+      box-shadow: 0 12px 28px rgba(101, 189, 115, 0.28);
+      flex: 0 0 auto;
+    }
+
+    .nav-link {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      color: #0b0f0d;
+      font-size: 14px;
+      font-weight: 700;
+      white-space: nowrap;
+      line-height: 1;
+      transition: color 0.25s ease;
+    }
+
+    .nav-arrow {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 12px;
+      height: 12px;
+      font-size: 11px;
+      line-height: 1;
+      transform: translateY(1px);
+      color: currentColor;
+    }
+
+    .nav-link::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -8px;
+      width: 0;
+      height: 2px;
+      border-radius: 999px;
+      background: var(--green);
+      transition: width 0.25s ease;
+    }
+
+    .nav-link:hover,
+    .nav-link.active {
+      color: var(--green);
+    }
+
+    .nav-link:hover::after,
+    .nav-link.active::after {
+      width: 100%;
+    }
+
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding-top: 132px;
+      padding-bottom: 92px;
+      background:
+        radial-gradient(circle at 86% 20%, rgba(101, 189, 115, 0.15), transparent 28%),
+        radial-gradient(circle at 10% 80%, rgba(101, 189, 115, 0.10), transparent 28%),
+        linear-gradient(180deg, #ffffff 0%, #fbfffc 100%);
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      right: -220px;
+      bottom: -220px;
+      width: 620px;
+      height: 620px;
+      border-radius: 50%;
+      border: 1px solid rgba(101, 189, 115, 0.20);
+      box-shadow: inset 0 0 0 36px rgba(101, 189, 115, 0.04), inset 0 0 0 78px rgba(101, 189, 115, 0.025);
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 16px;
+      border-radius: 999px;
+      background: var(--green-light);
+      color: #2d7f3d;
+      font-weight: 900;
+      font-size: 14px;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .clean-card {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      background: rgba(255, 255, 255, 0.92);
+      box-shadow: 0 22px 58px rgba(15, 23, 42, 0.055);
+      transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease;
+      height: 100%;
+      isolation: isolate;
+    }
+
+    .clean-card:hover {
+      transform: translateY(-7px);
+      border-color: rgba(101, 189, 115, 0.30);
+      box-shadow: 0 34px 80px rgba(15, 23, 42, 0.09);
+    }
+
+    .service-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #65bd73, rgba(101, 189, 115, 0.18));
+      opacity: 0;
+      transition: opacity 0.28s ease;
+    }
+
+    .service-card:hover::before {
+      opacity: 1;
+    }
+
+    .service-card p {
+      min-height: 84px;
+    }
+
+    .service-card-footer {
+      margin-top: auto;
+    }
+
+    .service-icon {
+      width: 64px;
+      height: 64px;
+      min-width: 64px;
+      border-radius: 22px;
+      background: var(--green-light);
+      color: var(--green);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      box-shadow: inset 0 0 0 1px rgba(101, 189, 115, 0.18);
+    }
+
+    .price-pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 9px 13px;
+      border-radius: 999px;
+      background: #f4fbf6;
+      color: #2e8a42;
+      font-size: 13px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .dark-panel {
+      position: relative;
+      overflow: hidden;
+      border-radius: 34px;
+      background:
+        radial-gradient(circle at 88% 18%, rgba(101, 189, 115, 0.28), transparent 28%),
+        linear-gradient(135deg, #0b0f0d 0%, #142118 100%);
+      color: white;
+      box-shadow: 0 34px 90px rgba(15, 23, 42, 0.20);
+      isolation: isolate;
+    }
+
+    .dark-panel::after {
+      content: "";
+      position: absolute;
+      right: -130px;
+      bottom: -130px;
+      width: 360px;
+      height: 360px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      box-shadow: inset 0 0 0 32px rgba(255, 255, 255, 0.035);
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .step-number {
+      width: 46px;
+      height: 46px;
+      min-width: 46px;
+      border-radius: 16px;
+      background: var(--green);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      box-shadow: 0 14px 32px rgba(101, 189, 115, 0.28);
+    }
+
+    .step-card {
+      align-items: flex-start;
+    }
+
+    .hero-actions a,
+    .final-cta {
+      will-change: transform;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+
+
+    .premium-footer {
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 86% 16%, rgba(101, 189, 115, 0.24), transparent 28%),
+        radial-gradient(circle at 12% 82%, rgba(101, 189, 115, 0.14), transparent 26%),
+        linear-gradient(135deg, #070b0a 0%, #111b15 48%, #07100a 100%);
+      color: white;
+    }
+
+    .premium-footer::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
+      background-size: 54px 54px;
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,0.55), transparent 78%);
+      pointer-events: none;
+    }
+
+    .footer-card {
+      position: relative;
+      z-index: 1;
+      border: 1px solid rgba(255, 255, 255, 0.10);
+      background: rgba(255, 255, 255, 0.055);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-radius: 30px;
+      box-shadow: 0 30px 90px rgba(0, 0, 0, 0.20);
+    }
+
+    .footer-link {
+      display: inline-flex;
+      color: rgba(255, 255, 255, 0.68);
+      font-weight: 700;
+      transition: color 0.25s ease, transform 0.25s ease;
+    }
+
+    .footer-link:hover {
+      color: #90df9d;
+      transform: translateX(4px);
+    }
+
+    .footer-dot {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: rgba(101, 189, 115, 0.14);
+      color: #90df9d;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex: 0 0 auto;
+      box-shadow: inset 0 0 0 1px rgba(101, 189, 115, 0.18);
+    }
+
+    @media (max-width: 1120px) {
+      .desktop-nav,
+      .desktop-contact {
+        display: none;
+      }
+
+      .hero {
+        padding-top: 116px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .site-header .max-w-7xl {
+        height: 72px;
+        padding-left: 18px;
+        padding-right: 18px;
+      }
+
+      .logo-mark {
+        width: 42px;
+        height: 42px;
+        font-size: 21px;
+      }
+
+      .hero {
+        padding-top: 104px;
+        padding-bottom: 62px;
+      }
+
+      .hero::after {
+        right: -330px;
+        bottom: -300px;
+      }
+
+      .badge {
+        white-space: normal;
+        line-height: 1.25;
+      }
+
+      .service-card p {
+        min-height: 0;
+      }
+
+      .dark-panel {
+        border-radius: 28px;
+      }
+
+      .service-icon {
+        width: 56px;
+        height: 56px;
+        min-width: 56px;
+        border-radius: 18px;
+        font-size: 24px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .hero h1 {
+        font-size: clamp(42px, 13vw, 58px);
+      }
+
+      .hero p {
+        font-size: 17px;
+        line-height: 1.7;
+      }
+
+      .hero-actions a {
+        width: 100%;
+      }
+
+      .clean-card {
+        border-radius: 24px;
+      }
+
+      .service-card-footer {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .step-card {
+        gap: 16px;
+      }
+
+      .final-cta {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="site-header" id="siteHeader">
+    <div class="max-w-7xl mx-auto px-6 h-[78px] flex items-center justify-between gap-5">
+      <a href="index.html" class="flex items-center gap-3" id="secretAdminTrigger">
+        <div class="logo-mark">🦷</div>
+        <div>
+          <div class="text-2xl font-black tracking-tight leading-none">Zh.Stom</div>
+          <div class="text-[11px] text-gray-500 mt-1 whitespace-nowrap">Стоматология нового поколения</div>
+        </div>
+      </a>
+
+      <nav class="desktop-nav flex items-center gap-5">
+        <a href="index.html" class="nav-link">Главная</a>
+        <a href="services.html" class="nav-link active">Услуги <span class="nav-arrow">▾</span></a>
+        <a href="about.html" class="nav-link">О клинике <span class="nav-arrow">▾</span></a>
+        <a href="contacts.html" class="nav-link">Контакты</a>
+      </nav>
+
+      <div class="desktop-contact flex items-center gap-3 shrink-0">
+        <a href="tel:+77001234567" class="flex items-center gap-2 shrink-0 whitespace-nowrap">
+          <span class="w-9 h-9 rounded-full bg-[#eaf8ee] text-[#65bd73] flex items-center justify-center shrink-0">☎</span>
+          <span class="flex flex-col leading-none whitespace-nowrap">
+            <span class="block font-black text-[13px] whitespace-nowrap">+7 747 359 9407</span>
+            <span class="block text-[11px] text-gray-500 mt-1 whitespace-nowrap">Ежедневно 9:00–21:00</span>
+          </span>
+        </a>
+        <a href="appointment.html" class="px-4 py-3 rounded-xl border border-[#65bd73] text-[#65bd73] font-black text-sm whitespace-nowrap hover:bg-[#65bd73] hover:text-white transition">
+          Записаться на приём
+        </a>
+      </div>
+
+      <a href="appointment.html" class="lg:hidden px-4 py-2 rounded-xl bg-[#65bd73] text-white font-black text-sm">
+        Запись
+      </a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="max-w-7xl mx-auto px-6 relative z-10">
+        <div class="grid lg:grid-cols-[1.05fr_0.95fr] gap-12 items-center">
+          <div class="reveal">
+            <div class="badge mb-7">✦ Услуги Zh.Stom</div>
+            <h1 class="text-5xl md:text-7xl font-black leading-[0.95] tracking-tight mb-7">
+              Лечение зубов<br>
+              <span class="text-[#65bd73]">спокойно и аккуратно</span>
+            </h1>
+            <p class="text-xl text-[#647067] leading-8 max-w-2xl mb-9">
+              Собрали основные услуги клиники в понятные блоки: терапия, имплантация, ортодонтия, эстетика и профессиональная гигиена.
+            </p>
+            <div class="hero-actions flex flex-col sm:flex-row gap-4">
+              <a href="appointment.html" class="inline-flex items-center justify-center gap-3 bg-[#65bd73] text-white px-8 py-4 rounded-xl font-black hover:scale-105 hover:shadow-xl hover:shadow-green-200 transition-all duration-300">
+                Записаться на консультацию <span>→</span>
+              </a>
+              <a href="#services" class="inline-flex items-center justify-center gap-3 bg-white border border-gray-200 text-[#0b0f0d] px-8 py-4 rounded-xl font-black hover:border-[#65bd73] hover:scale-105 transition-all duration-300">
+                Смотреть услуги
+              </a>
+            </div>
+          </div>
+
+          <div class="dark-panel p-8 md:p-10 reveal">
+            <div class="relative z-10">
+              <div class="grid grid-cols-2 gap-4 mb-8">
+                <div class="bg-white/10 rounded-3xl p-5 backdrop-blur">
+                  <div class="text-4xl font-black text-[#90df9d]">5000+</div>
+                  <div class="text-white/70 font-bold mt-2">пациентов</div>
+                </div>
+                <div class="bg-white/10 rounded-3xl p-5 backdrop-blur">
+                  <div class="text-4xl font-black text-[#90df9d]">12</div>
+                  <div class="text-white/70 font-bold mt-2">направлений</div>
+                </div>
+              </div>
+              <h2 class="text-3xl md:text-4xl font-black mb-4">Сначала диагностика — потом точный план</h2>
+              <p class="text-white/70 leading-8 mb-7">
+                Перед лечением врач объясняет проблему, варианты решения, сроки и ориентировочную стоимость. Без давления и непонятных назначений.
+              </p>
+              <div class="flex flex-wrap gap-3">
+                <span class="price-pill bg-white/10 text-white">Без боли</span>
+                <span class="price-pill bg-white/10 text-white">Стерильно</span>
+                <span class="price-pill bg-white/10 text-white">Понятный план</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="services" class="py-24 bg-white">
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="max-w-3xl mb-12 reveal">
+          <div class="badge mb-5">Основные направления</div>
+          <h2 class="text-4xl md:text-5xl font-black tracking-tight mb-5">Услуги клиники</h2>
+          <p class="text-[#647067] text-lg leading-8">Выберите нужное направление. На странице записи можно указать жалобу, удобное время и врача.</p>
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <article class="clean-card service-card p-7 reveal flex flex-col">
+            <div class="service-icon mb-6">🦷</div>
+            <h3 class="text-2xl font-black mb-3">Лечение зубов</h3>
+            <p class="text-[#647067] leading-7 mb-6">Кариес, пульпит, реставрации и восстановление формы зуба.</p>
+            <div class="service-card-footer flex items-center justify-between gap-4">
+              <span class="price-pill">от 12 000 ₸</span>
+              <a href="appointment.html" class="font-black text-[#65bd73]">Записаться →</a>
+            </div>
+          </article>
+
+          <article class="clean-card service-card p-7 reveal flex flex-col">
+            <div class="service-icon mb-6">✨</div>
+            <h3 class="text-2xl font-black mb-3">Профессиональная гигиена</h3>
+            <p class="text-[#647067] leading-7 mb-6">Чистка, полировка, снятие налёта и рекомендации по уходу.</p>
+            <div class="service-card-footer flex items-center justify-between gap-4">
+              <span class="price-pill">от 18 000 ₸</span>
+              <a href="appointment.html" class="font-black text-[#65bd73]">Записаться →</a>
+            </div>
+          </article>
+
+          <article class="clean-card service-card p-7 reveal flex flex-col">
+            <div class="service-icon mb-6">☼</div>
+            <h3 class="text-2xl font-black mb-3">Эстетическая стоматология</h3>
+            <p class="text-[#647067] leading-7 mb-6">Отбеливание, виниры, аккуратная коррекция улыбки.</p>
+            <div class="service-card-footer flex items-center justify-between gap-4">
+              <span class="price-pill">от 25 000 ₸</span>
+              <a href="appointment.html" class="font-black text-[#65bd73]">Записаться →</a>
+            </div>
+          </article>
+
+          <article class="clean-card service-card p-7 reveal flex flex-col">
+            <div class="service-icon mb-6">＋</div>
+            <h3 class="text-2xl font-black mb-3">Tist</h3>
+            <p class="text-[#647067] leading-7 mb-6">Планирование, установка импланта и восстановление зубного ряда.</p>
+            <div class="service-card-footer flex items-center justify-between gap-4">
+              <span class="price-pill">по плану врача</span>
+              <a href="appointment.html" class="font-black text-[#65bd73]">Записаться →</a>
+            </div>
+          </article>
+
+          <article class="clean-card service-card p-7 reveal flex flex-col">
+            <div class="service-icon mb-6">⌁</div>
+            <h3 class="text-2xl font-black mb-3">Ортодонтия</h3>
+            <p class="text-[#647067] leading-7 mb-6">Брекеты, элайнеры и исправление прикуса для детей и взрослых.</p>
+            <div class="service-card-footer flex items-center justify-between gap-4">
+              <span class="price-pill">консультация</span>
+              <a href="appointment.html" class="font-black text-[#65bd73]">Записаться →</a>
+            </div>
+          </article>
+
+          <article class="clean-card service-card p-7 reveal flex flex-col">
+            <div class="service-icon mb-6">◯</div>
+            <h3 class="text-2xl font-black mb-3">Протезирование</h3>
+            <p class="text-[#647067] leading-7 mb-6">Коронки, мосты и восстановление жевательной функции.</p>
+            <div class="service-card-footer flex items-center justify-between gap-4">
+              <span class="price-pill">по диагностике</span>
+              <a href="appointment.html" class="font-black text-[#65bd73]">Записаться →</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-24 bg-[#fbfffc]">
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="grid lg:grid-cols-2 gap-10 items-start">
+          <div class="reveal">
+            <div class="badge mb-5">Как проходит лечение</div>
+            <h2 class="text-4xl md:text-5xl font-black tracking-tight mb-5">Всё понятно с первого визита</h2>
+            <p class="text-[#647067] text-lg leading-8">Мы не начинаем лечение без объяснения. Пациент понимает, что делаем, зачем и какой будет результат.</p>
+          </div>
+
+          <div class="space-y-5">
+            <div class="clean-card step-card p-6 flex gap-5 reveal">
+              <div class="step-number">1</div>
+              <div>
+                <h3 class="text-xl font-black mb-2">Осмотр и диагностика</h3>
+                <p class="text-[#647067] leading-7">Врач смотрит состояние зубов, делает снимки при необходимости и объясняет проблему.</p>
+              </div>
+            </div>
+            <div class="clean-card step-card p-6 flex gap-5 reveal">
+              <div class="step-number">2</div>
+              <div>
+                <h3 class="text-xl font-black mb-2">План лечения</h3>
+                <p class="text-[#647067] leading-7">Вы получаете понятные этапы, сроки и ориентировочную стоимость лечения.</p>
+              </div>
+            </div>
+            <div class="clean-card step-card p-6 flex gap-5 reveal">
+              <div class="step-number">3</div>
+              <div>
+                <h3 class="text-xl font-black mb-2">Аккуратное лечение</h3>
+                <p class="text-[#647067] leading-7">Работаем бережно, стерильно и с контролем результата на каждом этапе.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+  </main>
+
+  <footer class="premium-footer px-6 py-16 md:py-20">
+    <div class="max-w-7xl mx-auto relative z-10">
+      <div class="footer-card p-8 md:p-10 mb-10">
+        <div class="grid lg:grid-cols-[1.15fr_0.85fr] gap-10 items-center">
+          <div>
+            <div class="inline-flex items-center gap-3 mb-6">
+              <div class="logo-mark">🦷</div>
+              <div>
+                <div class="text-3xl font-black tracking-tight leading-none">Zh.Stom</div>
+                <div class="text-white/50 text-sm mt-2">Стоматология нового поколения в Алматы</div>
+              </div>
+            </div>
+            <h2 class="text-4xl md:text-5xl font-black leading-tight tracking-tight mb-5">
+              Подберём услугу под вашу ситуацию
+            </h2>
+            <p class="text-white/65 text-lg leading-8 max-w-2xl">
+              Запишитесь на консультацию — врач проведёт осмотр, объяснит варианты лечения и составит понятный план.
+            </p>
+          </div>
+
+          <div class="lg:text-right">
+            <a href="appointment.html" class="inline-flex items-center justify-center bg-[#65bd73] text-white px-8 py-4 rounded-2xl font-black text-lg hover:scale-105 hover:shadow-xl hover:shadow-green-900/20 transition-all duration-300">
+              Записаться на приём →
+            </a>
+            <p class="text-white/45 font-semibold mt-5">Ежедневно с 9:00 до 21:00</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 pb-10 border-b border-white/10">
+        <div>
+          <h3 class="font-black text-lg mb-5">Навигация</h3>
+          <div class="space-y-3">
+            <a href="index.html" class="footer-link">Главная</a><br>
+            <a href="services.html" class="footer-link">Услуги</a><br>
+            <a href="about.html" class="footer-link">О клинике</a><br>
+            <a href="contacts.html" class="footer-link">Контакты</a>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="font-black text-lg mb-5">Популярные услуги</h3>
+          <div class="space-y-3">
+            <a href="services.html" class="footer-link">Лечение зубов</a><br>
+            <a href="services.html" class="footer-link">Профессиональная гигиена</a><br>
+            <a href="services.html" class="footer-link">Эстетика улыбки</a><br>
+            <a href="services.html" class="footer-link">Имплантация</a>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="font-black text-lg mb-5">Контакты</h3>
+          <div class="space-y-4">
+            <a href="tel:+77473599407" class="flex gap-3 group">
+              <span class="footer-dot">☎</span>
+              <span>
+                <span class="block text-white font-black group-hover:text-[#90df9d] transition">+7 (747) 359-94-07</span>
+                <span class="block text-white/45 text-sm mt-1">Позвонить в клинику</span>
+              </span>
+            </a>
+            <div class="flex gap-3">
+              <span class="footer-dot">⌂</span>
+              <span>
+                <span class="block text-white font-black">Алматы</span>
+                <span class="block text-white/45 text-sm mt-1">Городская стоматология</span>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="font-black text-lg mb-5">График</h3>
+          <div class="space-y-3 text-white/65 font-semibold">
+            <div class="flex justify-between gap-4">
+              <span>Пн–Пт</span>
+              <span class="text-white">9:00–21:00</span>
+            </div>
+            <div class="flex justify-between gap-4">
+              <span>Сб–Вс</span>
+              <span class="text-white">10:00–20:00</span>
+            </div>
+            <div class="mt-5 inline-flex px-4 py-2 rounded-full bg-white/10 text-[#90df9d] font-black text-sm">
+              Онлайн-запись открыта
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex flex-col md:flex-row items-center justify-between gap-4 pt-8 text-white/45 font-semibold">
+        <p>© 2026 Zh.Stom. Все права защищены.</p>
+        <p>Стоматология нового уровня в Алматы</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+  const secretAdminTrigger = document.getElementById('secretAdminTrigger');
+
+  let adminClicks = 0;
+  let clickTimer;
+
+  if (secretAdminTrigger) {
+    secretAdminTrigger.addEventListener('click', (event) => {
+      event.preventDefault();
+
+      adminClicks++;
+
+      clearTimeout(clickTimer);
+
+      clickTimer = setTimeout(() => {
+        adminClicks = 0;
+      }, 1500);
+
+      if (adminClicks >= 3) {
+        const pin = prompt('Введите PIN-код');
+
+        if (pin === '7777') {
+          window.location.href = 'admin.html';
+        } else {
+          alert('Неверный PIN-код');
+        }
+
+        adminClicks = 0;
+      }
+    });
+  }
+</script>
+
+  <script>
+    const siteHeader = document.getElementById('siteHeader');
+
+    if (siteHeader) {
+      const updateHeaderState = () => {
+        if (window.scrollY > 12) {
+          siteHeader.classList.add('scrolled');
+        } else {
+          siteHeader.classList.remove('scrolled');
+        }
+      };
+
+      updateHeaderState();
+      window.addEventListener('scroll', updateHeaderState, { passive: true });
+    }
+  </script>
+
+  <script>
+    const reveals = document.querySelectorAll('.reveal');
+
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver(
+        entries => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('active');
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.15 }
+      );
+
+      reveals.forEach(el => observer.observe(el));
+    } else {
+      reveals.forEach(el => el.classList.add('active'));
+    }
+  </script>
+</body>
+</html>

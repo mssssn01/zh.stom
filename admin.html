@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Админ-панель — Zh.Stom</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --green: #65bd73;
+      --green-light: #eaf8ee;
+      --black: #0b0f0d;
+      --muted: #647067;
+      --line: rgba(15, 23, 42, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: #f6faf7;
+      color: var(--black);
+      font-family: Inter, sans-serif;
+      overflow-x: hidden;
+    }
+
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 290px;
+      height: 100vh;
+      background:
+        radial-gradient(circle at top right, rgba(101,189,115,0.16), transparent 32%),
+        linear-gradient(180deg, #08100a 0%, #101912 100%);
+      border-right: 1px solid rgba(255,255,255,0.06);
+      padding: 28px;
+      z-index: 100;
+      overflow-y: auto;
+    }
+
+    .logo-mark {
+      width: 54px;
+      height: 54px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, #9ae3a6, #56b96b);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 28px;
+      font-weight: 900;
+      box-shadow: 0 18px 40px rgba(101,189,115,0.28);
+      flex: 0 0 auto;
+    }
+
+    .sidebar-link {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 16px;
+      border-radius: 18px;
+      color: rgba(255,255,255,0.72);
+      font-weight: 800;
+      transition: 0.25s ease;
+      text-decoration: none;
+    }
+
+    .sidebar-link:hover,
+    .sidebar-link.active {
+      background: rgba(255,255,255,0.08);
+      color: white;
+      transform: translateX(3px);
+    }
+
+    .main {
+      margin-left: 290px;
+      min-height: 100vh;
+      padding: 34px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .search-box {
+      width: 100%;
+      max-width: 360px;
+      height: 54px;
+      border-radius: 18px;
+      border: 1px solid rgba(15,23,42,0.08);
+      background: white;
+      padding: 0 18px;
+      font-weight: 700;
+      outline: none;
+      box-shadow: 0 10px 30px rgba(15,23,42,0.04);
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 22px;
+      margin-bottom: 28px;
+    }
+
+    .stat-card,
+    .table-card {
+      background: rgba(255,255,255,0.92);
+      border: 1px solid rgba(15,23,42,0.07);
+      border-radius: 30px;
+      box-shadow: 0 24px 70px rgba(15,23,42,0.06);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+
+    .stat-card {
+      padding: 26px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: linear-gradient(90deg, #65bd73, rgba(101,189,115,0.18));
+    }
+
+    .table-card {
+      overflow: hidden;
+    }
+
+    .table-scroll {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 1280px;
+    }
+
+    thead {
+      background: #f8fbf9;
+    }
+
+    th {
+      text-align: left;
+      padding: 20px 22px;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #647067;
+      font-weight: 900;
+      border-bottom: 1px solid rgba(15,23,42,0.06);
+      white-space: nowrap;
+    }
+
+    td {
+      padding: 20px 22px;
+      border-bottom: 1px solid rgba(15,23,42,0.05);
+      vertical-align: top;
+      font-weight: 700;
+      color: #0b0f0d;
+    }
+
+    tbody tr {
+      transition: background 0.25s ease;
+    }
+
+    tbody tr:hover {
+      background: rgba(101,189,115,0.04);
+    }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 14px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .status-new {
+      background: rgba(255, 193, 7, 0.14);
+      color: #d48806;
+    }
+
+    .status-progress {
+      background: rgba(33, 150, 243, 0.14);
+      color: #1976d2;
+    }
+
+    .status-done {
+      background: rgba(76, 175, 80, 0.14);
+      color: #2e7d32;
+    }
+
+    .action-btn {
+      min-height: 42px;
+      padding: 0 16px;
+      border-radius: 14px;
+      border: 1px solid rgba(15,23,42,0.08);
+      background: white;
+      color: #0b0f0d;
+      font-weight: 800;
+      cursor: pointer;
+      transition: 0.25s ease;
+    }
+
+    .action-btn:hover {
+      border-color: rgba(101,189,115,0.5);
+      color: #65bd73;
+      transform: translateY(-1px);
+    }
+
+    .action-select {
+      min-height: 42px;
+      padding: 0 14px;
+      border-radius: 14px;
+      border: 1px solid rgba(15,23,42,0.08);
+      background: white;
+      color: #0b0f0d;
+      font-weight: 800;
+      cursor: pointer;
+      outline: none;
+      transition: 0.25s ease;
+    }
+
+    .action-select:focus {
+      border-color: rgba(101,189,115,0.55);
+      box-shadow: 0 0 0 4px rgba(101,189,115,0.12);
+    }
+
+    .action-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .whatsapp-btn,
+    .delete-btn {
+      min-height: 42px;
+      padding: 0 14px;
+      border-radius: 14px;
+      border: 0;
+      font-weight: 900;
+      cursor: pointer;
+      transition: 0.25s ease;
+      color: white;
+    }
+
+    .whatsapp-btn {
+      background: #25D366;
+      box-shadow: 0 12px 30px rgba(37, 211, 102, 0.22);
+    }
+
+    .whatsapp-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 18px 40px rgba(37, 211, 102, 0.30);
+    }
+
+    .delete-btn {
+      background: #ef4444;
+      box-shadow: 0 12px 30px rgba(239, 68, 68, 0.20);
+    }
+
+    .delete-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 18px 40px rgba(239, 68, 68, 0.28);
+    }
+
+    .empty-state {
+      padding: 90px 24px;
+      text-align: center;
+    }
+
+    .empty-icon {
+      width: 92px;
+      height: 92px;
+      border-radius: 30px;
+      margin: 0 auto 24px;
+      background: linear-gradient(135deg, #eaf8ee, white);
+      color: #65bd73;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 42px;
+      box-shadow: inset 0 0 0 1px rgba(101,189,115,0.14);
+    }
+
+    @media (max-width: 1180px) {
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 980px) {
+      .sidebar {
+        position: relative;
+        width: 100%;
+        height: auto;
+      }
+
+      .main {
+        margin-left: 0;
+        padding: 20px;
+      }
+
+      .topbar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .search-box {
+        max-width: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="flex items-center gap-4 mb-12">
+      <div class="logo-mark">🦷</div>
+      <div>
+        <div class="text-3xl font-black text-white leading-none">Zh.Stom</div>
+        <div class="text-white/45 text-sm mt-2 font-semibold">Админ-панель</div>
+      </div>
+    </div>
+
+    <nav class="space-y-3">
+      <a href="#" class="sidebar-link active">
+        <span>📋</span>
+        <span>Заявки</span>
+      </a>
+
+      <a href="index.html" class="sidebar-link">
+        <span>🌐</span>
+        <span>Открыть сайт</span>
+      </a>
+
+      <a href="appointment.html" class="sidebar-link">
+        <span>📝</span>
+        <span>Страница записи</span>
+      </a>
+    </nav>
+
+    <div class="mt-14 p-5 rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl">
+      <div class="text-white font-black text-lg mb-2">Zh.Stom CRM</div>
+      <p class="text-white/55 text-sm leading-7">
+        Здесь отображаются все заявки, поступающие с сайта.
+      </p>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <div>
+        <div class="text-[#65bd73] font-black uppercase tracking-[0.18em] text-sm mb-3">Панель управления</div>
+        <h1 class="text-5xl font-black tracking-tight leading-none">Заявки пациентов</h1>
+      </div>
+
+      <input type="text" id="searchInput" class="search-box" placeholder="Поиск по имени или телефону">
+    </div>
+
+    <section class="stats-grid">
+      <div class="stat-card">
+        <div class="text-[#647067] font-black uppercase text-sm tracking-[0.12em] mb-4">Всего заявок</div>
+        <div class="text-5xl font-black tracking-tight" id="totalCount">0</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="text-[#647067] font-black uppercase text-sm tracking-[0.12em] mb-4">Новые</div>
+        <div class="text-5xl font-black tracking-tight text-[#d48806]" id="newCount">0</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="text-[#647067] font-black uppercase text-sm tracking-[0.12em] mb-4">Завершённые</div>
+        <div class="text-5xl font-black tracking-tight text-[#2e7d32]" id="doneCount">0</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="text-[#647067] font-black uppercase text-sm tracking-[0.12em] mb-4">В работе</div>
+        <div class="text-5xl font-black tracking-tight text-[#1976d2]" id="progressCount">0</div>
+      </div>
+    </section>
+
+    <section class="table-card">
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Имя</th>
+              <th>Телефон</th>
+              <th>Услуга</th>
+              <th>Врач</th>
+              <th>Дата приёма</th>
+              <th>Время</th>
+              <th>Комментарий</th>
+              <th>Статус</th>
+              <th>Создано</th>
+              <th>Действие</th>
+            </tr>
+          </thead>
+
+          <tbody id="appointmentsTableBody">
+            <tr>
+              <td colspan="11">
+                <div class="empty-state">
+                  <div class="empty-icon">🦷</div>
+                  <h3 class="text-3xl font-black mb-4">Заявок пока нет</h3>
+                  <p class="text-[#647067] text-lg max-w-xl mx-auto leading-8">
+                    После того как пользователь отправит форму записи, заявка автоматически появится здесь.
+                  </p>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const tableBody = document.getElementById('appointmentsTableBody');
+    const totalCount = document.getElementById('totalCount');
+    const newCount = document.getElementById('newCount');
+    const doneCount = document.getElementById('doneCount');
+    const progressCount = document.getElementById('progressCount');
+    const searchInput = document.getElementById('searchInput');
+
+    let appointments = [];
+
+    const formatDate = (dateString) => {
+      if (!dateString) return '—';
+
+      const date = new Date(dateString);
+
+      return date.toLocaleString('ru-RU', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+    };
+
+    const formatAppointmentDate = (dateString) => {
+      if (!dateString) return '—';
+
+      const [year, month, day] = dateString.split('-');
+
+      if (!year || !month || !day) return dateString;
+
+      return `${day}.${month}.${year}`;
+    };
+
+    const getStatusLabel = (status) => {
+      switch (status) {
+        case 'done':
+          return '<span class="status status-done">Завершена</span>';
+        case 'in_progress':
+          return '<span class="status status-progress">В работе</span>';
+        default:
+          return '<span class="status status-new">Новая</span>';
+      }
+    };
+
+    const updateStats = (items) => {
+      totalCount.textContent = items.length;
+      newCount.textContent = items.filter(item => item.status === 'new').length;
+      doneCount.textContent = items.filter(item => item.status === 'done').length;
+      progressCount.textContent = items.filter(item => item.status === 'in_progress').length;
+    };
+
+    const renderAppointments = (items) => {
+      updateStats(items);
+
+      if (!items.length) {
+        tableBody.innerHTML = `
+          <tr>
+            <td colspan="11">
+              <div class="empty-state">
+                <div class="empty-icon">🦷</div>
+                <h3 class="text-3xl font-black mb-4">Ничего не найдено</h3>
+                <p class="text-[#647067] text-lg max-w-xl mx-auto leading-8">
+                  Попробуйте изменить запрос поиска.
+                </p>
+              </div>
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      tableBody.innerHTML = items.map(item => `
+        <tr>
+          <td>#${item.id}</td>
+          <td>
+            <div class="font-black text-lg">${item.name || '—'}</div>
+          </td>
+          <td>
+            <a href="tel:${item.phone}" class="text-[#65bd73] font-black hover:underline">
+              ${item.phone || '—'}
+            </a>
+          </td>
+          <td>${item.service || '—'}</td>
+          <td>${item.doctor || 'Любой специалист'}</td>
+          <td>${formatAppointmentDate(item.appointment_date)}</td>
+          <td>${item.appointment_time || '—'}</td>
+          <td style="max-width: 280px; line-height: 1.7; color: #647067;">
+            ${item.message || '—'}
+          </td>
+          <td>${getStatusLabel(item.status)}</td>
+          <td>${formatDate(item.created_at)}</td>
+          <td>
+            <div class="action-group">
+              <select class="action-select" onchange="changeStatus(${item.id}, this.value)">
+                <option value="new" ${item.status === 'new' ? 'selected' : ''}>Новая</option>
+                <option value="in_progress" ${item.status === 'in_progress' ? 'selected' : ''}>В работе</option>
+                <option value="done" ${item.status === 'done' ? 'selected' : ''}>Завершена</option>
+              </select>
+
+              <button class="whatsapp-btn" onclick="openWhatsApp('${item.phone || ''}')">
+                WhatsApp
+              </button>
+
+              <button class="delete-btn" onclick="deleteAppointment(${item.id})">
+                Удалить
+              </button>
+            </div>
+          </td>
+        </tr>
+      `).join('');
+    };
+
+    const loadAppointments = async () => {
+      try {
+        const response = await fetch('/api/admin/appointments');
+        const data = await response.json();
+
+        appointments = Array.isArray(data) ? data : [];
+
+        renderAppointments(appointments);
+      } catch (error) {
+        tableBody.innerHTML = `
+          <tr>
+            <td colspan="11">
+              <div class="empty-state">
+                <div class="empty-icon">⚠️</div>
+                <h3 class="text-3xl font-black mb-4">Ошибка подключения</h3>
+                <p class="text-[#647067] text-lg max-w-xl mx-auto leading-8">
+                  Проверьте, запущен ли сервер на http://localhost:3000
+                </p>
+              </div>
+            </td>
+          </tr>
+        `;
+      }
+    };
+
+    window.changeStatus = async (id, status) => {
+      try {
+        const response = await fetch(`/api/admin/appointments/${id}/status`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ status })
+        });
+
+        const result = await response.json();
+
+        if (!response.ok || !result.success) {
+          throw new Error(result.error || 'Не удалось обновить статус');
+        }
+
+        appointments = appointments.map(item => {
+          if (item.id === id) {
+            return {
+              ...item,
+              status
+            };
+          }
+
+          return item;
+        });
+
+        renderAppointments(appointments);
+      } catch (error) {
+        alert('Статус не сохранился. Проверьте, добавлен ли PATCH маршрут в server.js и перезапущен ли сервер.');
+        loadAppointments();
+      }
+    };
+
+    window.openWhatsApp = (phone) => {
+      if (!phone) return;
+
+      const cleanPhone = phone.replace(/\D/g, '');
+      window.open(`https://wa.me/${cleanPhone}`, '_blank');
+    };
+
+    window.deleteAppointment = async (id) => {
+      const confirmed = confirm('Удалить заявку?');
+
+      if (!confirmed) return;
+
+      try {
+        const response = await fetch(`/api/admin/appointments/${id}`, {
+          method: 'DELETE'
+        });
+
+        const result = await response.json();
+
+        if (!response.ok || !result.success) {
+          throw new Error(result.error || 'Ошибка удаления');
+        }
+
+        appointments = appointments.filter(item => item.id !== id);
+
+        renderAppointments(appointments);
+      } catch (error) {
+        alert('Не удалось удалить заявку. Проверьте DELETE маршрут в server.js');
+      }
+    };
+
+    searchInput.addEventListener('input', (event) => {
+      const value = event.target.value.trim().toLowerCase();
+
+      if (!value) {
+        renderAppointments(appointments);
+        return;
+      }
+
+      const filtered = appointments.filter(item => {
+        return (
+          (item.name || '').toLowerCase().includes(value) ||
+          (item.phone || '').toLowerCase().includes(value)
+        );
+      });
+
+      renderAppointments(filtered);
+    });
+
+    loadAppointments();
+  </script>
+</body>
+</html>

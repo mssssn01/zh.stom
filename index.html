@@ -1,0 +1,1211 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Zh.Stom | Стоматология</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    :root {
+      --green: #65bd73;
+      --green-light: #eaf8ee;
+      --green-soft: #f5fcf7;
+      --black: #070b0a;
+      --text: #647067;
+      --line: rgba(15, 23, 42, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: #ffffff;
+      color: var(--black);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      overflow-x: hidden;
+    }
+
+    a,
+    button {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .site-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(15, 23, 42, 0.07);
+      transition: box-shadow 0.3s ease, background 0.3s ease;
+    }
+
+    .site-header.scrolled {
+      background: rgba(255, 255, 255, 0.98);
+      box-shadow: 0 18px 45px rgba(15, 23, 42, 0.08);
+    }
+
+    .logo-mark {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #a8e6b0, #56b96b);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 24px;
+      box-shadow: 0 12px 28px rgba(101, 189, 115, 0.28);
+      font-weight: 900;
+      flex: 0 0 auto;
+    }
+
+    .nav-link {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      color: #0b0f0d;
+      font-size: 14px;
+      font-weight: 700;
+      white-space: nowrap;
+      line-height: 1;
+      transition: color 0.25s ease;
+    }
+
+    .nav-arrow {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 12px;
+      height: 12px;
+      font-size: 11px;
+      line-height: 1;
+      transform: translateY(1px);
+      color: currentColor;
+    }
+
+    .nav-link::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -8px;
+      width: 0;
+      height: 2px;
+      border-radius: 999px;
+      background: var(--green);
+      transition: width 0.25s ease;
+    }
+
+    .nav-link:hover,
+    .nav-link.active {
+      color: var(--green);
+    }
+
+    .nav-link:hover::after,
+    .nav-link.active::after {
+      width: 100%;
+    }
+
+    .hero-wrap {
+      position: relative;
+      overflow: hidden;
+      min-height: auto;
+      padding-top: 128px;
+      padding-bottom: 92px;
+      background:
+        radial-gradient(circle at 88% 18%, rgba(101, 189, 115, 0.14), transparent 28%),
+        radial-gradient(circle at 14% 70%, rgba(101, 189, 115, 0.08), transparent 26%),
+        linear-gradient(180deg, #ffffff 0%, #fbfffc 100%);
+    }
+
+    .hero-wrap::after {
+      content: "";
+      position: absolute;
+      right: -180px;
+      bottom: -180px;
+      width: 580px;
+      height: 580px;
+      border-radius: 50%;
+      border: 1px solid rgba(101, 189, 115, 0.22);
+      box-shadow: inset 0 0 0 34px rgba(101, 189, 115, 0.035), inset 0 0 0 72px rgba(101, 189, 115, 0.025);
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 18px;
+      border-radius: 999px;
+      background: #f2f4f3;
+      color: #4f5d55;
+      font-weight: 700;
+      box-shadow: 0 14px 34px rgba(15, 23, 42, 0.04);
+    }
+
+    .hero-image-card {
+      position: relative;
+      min-height: 620px;
+      isolation: isolate;
+      border-radius: 34px;
+      overflow: hidden;
+      background:
+        linear-gradient(135deg, rgba(7, 11, 10, 0.08), rgba(101, 189, 115, 0.10)),
+        linear-gradient(135deg, #f7fbf8 0%, #ffffff 42%, #eaf8ee 100%);
+      box-shadow: 0 34px 90px rgba(15, 23, 42, 0.13);
+    }
+
+    .hero-image-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 68% 28%, rgba(255,255,255,0.88), transparent 18%),
+        radial-gradient(circle at 76% 48%, rgba(101, 189, 115, 0.26), transparent 22%),
+        radial-gradient(circle at 36% 68%, rgba(101, 189, 115, 0.18), transparent 28%),
+        linear-gradient(135deg, #f7fbf8 0%, #ffffff 42%, #eaf8ee 100%);
+      opacity: 1;
+    }
+
+    .hero-image-card::after {
+      content: "Zh.Stom";
+      position: absolute;
+      top: 28px;
+      right: 28px;
+      z-index: 2;
+      padding: 12px 18px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.88);
+      color: #23442c;
+      font-size: 14px;
+      font-weight: 900;
+      letter-spacing: 0.02em;
+      box-shadow: 0 16px 40px rgba(15, 23, 42, 0.10);
+      backdrop-filter: blur(16px);
+    }
+
+    .hero-visual-shape {
+      position: absolute;
+      z-index: 2;
+      border-radius: 999px;
+      pointer-events: none;
+    }
+
+    .hero-visual-shape.one {
+      width: 260px;
+      height: 260px;
+      right: 84px;
+      top: 118px;
+      background: rgba(101, 189, 115, 0.20);
+      box-shadow: inset 0 0 0 34px rgba(255,255,255,0.42), 0 34px 90px rgba(101, 189, 115, 0.14);
+    }
+
+    .hero-visual-shape.two {
+      width: 150px;
+      height: 150px;
+      left: 58px;
+      bottom: 158px;
+      background: rgba(255,255,255,0.64);
+      box-shadow: inset 0 0 0 18px rgba(101, 189, 115, 0.12), 0 24px 70px rgba(15, 23, 42, 0.08);
+    }
+
+    .hero-visual-shape.three {
+      width: 92px;
+      height: 92px;
+      right: 230px;
+      bottom: 178px;
+      background: #65bd73;
+      box-shadow: 0 24px 60px rgba(101, 189, 115, 0.30);
+    }
+
+    .patient-card {
+      position: absolute;
+      left: 50%;
+      bottom: 30px;
+      transform: translateX(-50%);
+      width: min(600px, calc(100% - 56px));
+      padding: 22px 28px;
+      border-radius: 34px;
+      background: rgba(255,255,255,0.96);
+      backdrop-filter: blur(18px);
+      box-shadow: 0 24px 60px rgba(15, 23, 42, 0.16);
+      border: 1px solid rgba(255,255,255,0.92);
+      z-index: 3;
+    }
+
+    .trust-icon {
+      width: 90px;
+      height: 90px;
+      min-width: 90px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #eaf8ee, #ffffff);
+      color: #65bd73;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 38px;
+      border: 6px solid white;
+      box-shadow: 0 18px 45px rgba(101, 189, 115, 0.18), inset 0 0 0 1px rgba(101, 189, 115, 0.16);
+      flex: 0 0 auto;
+    }
+
+
+    .patient-count {
+      width: 98px;
+      height: 98px;
+      min-width: 98px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #65bd73, #3faf55);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 25px;
+      line-height: 1;
+      font-weight: 900;
+      border: 7px solid white;
+      box-shadow: 0 18px 45px rgba(101, 189, 115, 0.30);
+      flex: 0 0 auto;
+      margin-left: -14px;
+    }
+
+    .hero-photo-note {
+      position: absolute;
+      left: 30px;
+      top: 30px;
+      z-index: 3;
+      max-width: 245px;
+      padding: 18px 20px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.90);
+      backdrop-filter: blur(16px);
+      box-shadow: 0 18px 45px rgba(15, 23, 42, 0.10);
+      border: 1px solid rgba(255, 255, 255, 0.88);
+    }
+
+    .hero-photo-note strong {
+      display: block;
+      font-size: 18px;
+      line-height: 1.2;
+      font-weight: 900;
+      margin-bottom: 6px;
+    }
+
+    .hero-photo-note span {
+      display: block;
+      color: #647067;
+      font-size: 14px;
+      line-height: 1.45;
+      font-weight: 700;
+    }
+
+    .feature-icon {
+      width: 56px;
+      height: 56px;
+      min-width: 56px;
+      border-radius: 18px;
+      background: var(--green-light);
+      color: var(--green);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      flex: 0 0 auto;
+      box-shadow: inset 0 0 0 1px rgba(101, 189, 115, 0.16);
+    }
+
+    .section-label {
+      color: var(--green);
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 14px;
+    }
+
+    .clean-card {
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: white;
+      box-shadow: 0 20px 50px rgba(15, 23, 42, 0.04);
+      transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+      overflow: hidden;
+    }
+
+    .clean-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(101, 189, 115, 0.26);
+      box-shadow: 0 28px 75px rgba(15, 23, 42, 0.08);
+    }
+
+    .green-blob {
+      background:
+        radial-gradient(circle at top right, rgba(255,255,255,0.95), transparent 30%),
+        linear-gradient(135deg, #e9faee, #bcecc5);
+    }
+
+    .black-card {
+      background:
+        radial-gradient(circle at top right, rgba(101, 189, 115, 0.24), transparent 36%),
+        linear-gradient(135deg, #070b0a, #14251b);
+      color: white;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .quick-btn {
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: var(--green-light);
+      color: #23442c;
+      font-weight: 800;
+      font-size: 13px;
+      transition: 0.25s ease;
+    }
+
+    .quick-btn:hover {
+      background: var(--green);
+      color: white;
+    }
+
+    section {
+      position: relative;
+      z-index: 1;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    .doctor-photo {
+      width: 76px;
+      height: 76px;
+      min-width: 76px;
+      border-radius: 24px;
+      background: linear-gradient(135deg, #eaf8ee, #ffffff);
+      color: #65bd73;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 34px;
+      position: relative;
+      z-index: 2;
+      box-shadow: inset 0 0 0 1px rgba(101, 189, 115, 0.18), 0 14px 34px rgba(15, 23, 42, 0.08);
+    }
+
+    .doctor-card-content {
+      position: relative;
+      z-index: 3;
+    }
+
+    .hero-action-icon {
+      width: 26px;
+      height: 26px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.2);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      line-height: 1;
+      color: white;
+      flex: 0 0 auto;
+      transform: translateY(1px);
+    }
+
+    .hero-features {
+      align-items: stretch;
+      grid-template-columns: 1fr;
+      max-width: 620px;
+    }
+
+    .hero-feature-item {
+      min-width: 0;
+      align-items: center;
+      padding: 18px 20px;
+      border: 1px solid rgba(15, 23, 42, 0.07);
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.86);
+      box-shadow: 0 18px 42px rgba(15, 23, 42, 0.04);
+      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    }
+
+    .hero-feature-item:hover {
+      transform: translateY(-4px);
+      border-color: rgba(101, 189, 115, 0.25);
+      box-shadow: 0 24px 56px rgba(15, 23, 42, 0.07);
+    }
+
+    .clean-card p {
+      overflow-wrap: anywhere;
+    }
+
+    .premium-footer {
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 86% 16%, rgba(101, 189, 115, 0.24), transparent 28%),
+        radial-gradient(circle at 12% 82%, rgba(101, 189, 115, 0.14), transparent 26%),
+        linear-gradient(135deg, #070b0a 0%, #111b15 48%, #07100a 100%);
+      color: white;
+    }
+
+    .premium-footer::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
+      background-size: 54px 54px;
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,0.55), transparent 78%);
+      pointer-events: none;
+    }
+
+    .footer-card {
+      position: relative;
+      z-index: 1;
+      border: 1px solid rgba(255, 255, 255, 0.10);
+      background: rgba(255, 255, 255, 0.055);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-radius: 30px;
+      box-shadow: 0 30px 90px rgba(0, 0, 0, 0.20);
+    }
+
+    .footer-link {
+      display: inline-flex;
+      color: rgba(255, 255, 255, 0.68);
+      font-weight: 700;
+      transition: color 0.25s ease, transform 0.25s ease;
+    }
+
+    .footer-link:hover {
+      color: #90df9d;
+      transform: translateX(4px);
+    }
+
+    .footer-dot {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: rgba(101, 189, 115, 0.14);
+      color: #90df9d;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex: 0 0 auto;
+      box-shadow: inset 0 0 0 1px rgba(101, 189, 115, 0.18);
+    }
+
+    @media (max-width: 1120px) {
+      .desktop-nav,
+      .desktop-contact {
+        display: none;
+      }
+
+      .hero-image-card {
+        min-height: 520px;
+        margin-top: 8px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .site-header .max-w-7xl {
+        height: 72px;
+        padding-left: 18px;
+        padding-right: 18px;
+      }
+
+      .logo-mark {
+        width: 42px;
+        height: 42px;
+        font-size: 21px;
+      }
+
+      .hero-wrap {
+        padding-top: 104px;
+        padding-bottom: 62px;
+      }
+
+      .hero-badge {
+        padding: 10px 14px;
+        font-size: 13px;
+      }
+
+      .feature-icon {
+        width: 48px;
+        height: 48px;
+        min-width: 48px;
+        border-radius: 16px;
+        font-size: 21px;
+      }
+
+      .clean-card {
+        border-radius: 20px;
+      }
+    }
+    @media (max-width: 900px) {
+      .hero-feature-item {
+        padding: 16px;
+      }
+
+      .hero-feature-item p {
+        max-width: none;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .hero-wrap {
+        padding-top: 104px;
+        padding-bottom: 54px;
+      }
+
+      .hero-wrap::after {
+        right: -260px;
+        bottom: -260px;
+      }
+
+      .hero-features {
+        grid-template-columns: 1fr;
+        max-width: none;
+      }
+
+      .hero-feature-item {
+        gap: 14px;
+      }
+
+      .hero-image-card {
+        min-height: 460px;
+        overflow: hidden;
+      }
+
+      .patient-card {
+        position: absolute;
+        left: 50%;
+        bottom: 16px;
+        transform: translateX(-50%);
+        width: calc(100% - 28px);
+        margin-top: 0;
+        padding: 15px;
+        border-radius: 22px;
+        gap: 14px;
+      }
+
+      .trust-icon {
+        width: 62px;
+        height: 62px;
+        min-width: 62px;
+        font-size: 27px;
+        border-width: 4px;
+      }
+
+      .patient-count {
+        width: 68px;
+        height: 68px;
+        min-width: 68px;
+        font-size: 18px;
+        border-width: 5px;
+        margin-left: -10px;
+      }
+
+      #chatbot {
+        right: 16px;
+        bottom: 16px;
+      }
+
+      #chatWindow {
+        width: calc(100vw - 32px);
+      }
+
+      .hero-photo-note {
+        left: 16px;
+        top: 16px;
+        right: 16px;
+        max-width: none;
+        padding: 15px 16px;
+        border-radius: 20px;
+      }
+
+      .hero-image-card::after {
+        top: auto;
+        right: 16px;
+        bottom: 124px;
+      }
+
+      .hero-visual-shape.one {
+        width: 190px;
+        height: 190px;
+        right: 36px;
+        top: 118px;
+      }
+
+      .hero-visual-shape.two {
+        width: 110px;
+        height: 110px;
+        left: 28px;
+        bottom: 150px;
+      }
+
+      .hero-visual-shape.three {
+        width: 72px;
+        height: 72px;
+        right: 150px;
+        bottom: 164px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header id="siteHeader" class="site-header">
+  <div class="max-w-7xl mx-auto px-6 h-[78px] flex items-center justify-between gap-5">
+    <a href="index.html" class="flex items-center gap-3" id="secretAdminTrigger">
+      <div class="logo-mark">🦷</div>
+      <div>
+        <div class="text-2xl font-black tracking-tight leading-none">Zh.Stom</div>
+        <div class="text-[11px] text-gray-500 mt-1 whitespace-nowrap">Стоматология нового поколения</div>
+      </div>
+    </a>
+
+    <nav class="desktop-nav flex items-center gap-5">
+      <a href="index.html" class="nav-link active">Главная</a>
+      <a href="services.html" class="nav-link">Услуги <span class="nav-arrow">▾</span></a>
+      <a href="about.html" class="nav-link">О клинике <span class="nav-arrow">▾</span></a>
+      <a href="contacts.html" class="nav-link">Контакты</a>
+    </nav>
+
+    <div class="desktop-contact flex items-center gap-3 shrink-0">
+      <a href="tel:+77473599407" class="flex items-center gap-2 shrink-0 whitespace-nowrap">
+        <span class="w-9 h-9 rounded-full bg-[#eaf8ee] text-[#65bd73] flex items-center justify-center shrink-0">☎</span>
+        <span class="flex flex-col leading-none whitespace-nowrap">
+            <span class="block font-black text-[13px] whitespace-nowrap">+7 747 359 9407</span>
+          <span class="block text-[11px] text-gray-500 mt-1 whitespace-nowrap">Ежедневно 9:00–21:00</span>
+        </span>
+      </a>
+      <a href="appointment.html" class="px-4 py-3 rounded-xl border border-[#65bd73] text-[#65bd73] font-black text-sm whitespace-nowrap hover:bg-[#65bd73] hover:text-white transition">
+        Записаться на приём
+      </a>
+    </div>
+
+    <a href="appointment.html" class="lg:hidden px-4 py-2 rounded-xl bg-[#65bd73] text-white font-black text-sm">
+      Запись
+    </a>
+  </div>
+</header>
+
+<main>
+  <section class="hero-wrap reveal">
+    <div class="relative z-10 max-w-7xl mx-auto px-6 grid lg:grid-cols-[0.92fr_1.08fr] gap-12 items-center">
+      <div>
+        <div class="hero-badge mb-8">
+          <span class="w-3 h-3 rounded-full bg-[#65bd73]"></span>
+          Качество, которому доверяют
+        </div>
+
+        <h1 class="text-4xl md:text-6xl xl:text-[64px] font-black leading-[1.02] tracking-tight mb-7">
+          Здоровая улыбка —
+          <span class="block text-[#65bd73]">уверенность каждый день</span>
+        </h1>
+
+        <p class="text-lg md:text-xl leading-8 text-[#647067] max-w-2xl mb-8">
+          Современные технологии, опытные врачи и забота о каждом пациенте
+          для вашей идеальной улыбки.
+        </p>
+
+        <div class="flex flex-col sm:flex-row gap-4 mb-14">
+          <a href="appointment.html" class="inline-flex items-center justify-center gap-3 bg-[#65bd73] text-white px-8 py-4 rounded-xl font-black hover:scale-105 hover:shadow-xl hover:shadow-green-200 transition-all duration-300">
+            <span>Записаться на приём</span>
+            <span class="hero-action-icon">→</span>
+          </a>
+          <a href="services.html" class="inline-flex items-center justify-center gap-3 bg-white border border-gray-200 text-[#0b0f0d] px-8 py-4 rounded-xl font-black hover:border-[#65bd73] hover:scale-105 transition-all duration-300">
+            Наши услуги
+            <span>→</span>
+          </a>
+        </div>
+
+        <div class="hero-features grid gap-4">
+          <div class="hero-feature-item flex gap-4">
+            <div class="feature-icon">✓</div>
+            <div>
+              <h3 class="font-black">Безопасность</h3>
+              <p>Стерильность и контроль качества на каждом этапе.</p>
+            </div>
+          </div>
+
+          <div class="hero-feature-item flex gap-4">
+            <div class="feature-icon">☺</div>
+            <div>
+              <h3 class="font-black">Комфорт</h3>
+              <p>Спокойный приём без боли, стресса и лишнего ожидания.</p>
+            </div>
+          </div>
+
+          <div class="hero-feature-item flex gap-4">
+            <div class="feature-icon">✦</div>
+            <div>
+              <h3 class="font-black">Результат</h3>
+              <p>Эстетичная улыбка и результат, который служит долго.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="hero-image-card">
+          <div class="hero-visual-shape one"></div>
+          <div class="hero-visual-shape two"></div>
+          <div class="hero-visual-shape three"></div>
+
+          <div class="hero-photo-note">
+            <strong>Цифровая стоматология</strong>
+            <span>Диагностика, лечение и эстетика улыбки в одной клинике.</span>
+          </div>
+
+          <div class="patient-card flex flex-row items-center gap-5 sm:gap-7">
+            <div class="flex items-center shrink-0">
+              <div class="trust-icon">👥</div>
+              <div class="patient-count">5000+</div>
+            </div>
+            <div class="min-w-0">
+              <h3 class="font-black text-lg md:text-2xl leading-tight">Довольных пациентов</h3>
+              <p class="text-[#647067] font-bold mt-1 md:mt-2">доверяют нам</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="about" class="reveal py-20 px-6 bg-white">
+    <div class="max-w-7xl mx-auto text-center">
+      <p class="section-label mb-4">О клинике</p>
+      <h2 class="text-4xl md:text-5xl font-black mb-5">Почему выбирают Zh.Stom</h2>
+      <p class="text-[#647067] max-w-3xl mx-auto text-lg leading-8 mb-14">
+        Мы объединяем опыт, технологии и заботу, чтобы вы получали лучший результат
+        и чувствовали себя уверенно на каждом этапе лечения.
+      </p>
+
+      <div class="grid md:grid-cols-3 gap-6 text-left">
+        <div class="clean-card p-8">
+          <div class="feature-icon mb-7">✓</div>
+          <h3 class="text-2xl font-black mb-3">Честная диагностика</h3>
+          <p class="text-[#647067] leading-7">Врач объясняет состояние зубов, показывает варианты лечения и помогает выбрать правильный путь.</p>
+        </div>
+        <div class="clean-card p-8">
+          <div class="feature-icon mb-7">▦</div>
+          <h3 class="text-2xl font-black mb-3">Современный подход</h3>
+          <p class="text-[#647067] leading-7">Качественные материалы, аккуратная работа и понятный план без лишнего давления.</p>
+        </div>
+        <div class="clean-card p-8">
+          <div class="feature-icon mb-7">✦</div>
+          <h3 class="text-2xl font-black mb-3">Эстетичный результат</h3>
+          <p class="text-[#647067] leading-7">Мы заботимся не только о здоровье зубов, но и о естественной красоте улыбки.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal py-20 px-6 bg-[#f7fbf8]">
+    <div class="max-w-7xl mx-auto grid lg:grid-cols-[1.05fr_0.95fr] gap-8 items-stretch">
+      <div class="black-card rounded-[34px] p-8 md:p-12 flex flex-col justify-between min-h-[430px]">
+        <div>
+          <p class="text-[#90df9d] uppercase tracking-[0.25em] font-black text-sm mb-5">Услуги</p>
+          <h2 class="text-4xl md:text-5xl font-black leading-tight mb-6">Лечение, эстетика и профилактика в одном месте</h2>
+          <p class="text-white/70 text-lg leading-8 max-w-2xl">
+            От первичной консультации до восстановления улыбки — мы строим лечение как понятный маршрут.
+          </p>
+        </div>
+        <a href="services.html" class="inline-flex w-fit mt-8 bg-[#65bd73] text-white px-7 py-4 rounded-xl font-black hover:scale-105 transition">Все услуги →</a>
+      </div>
+
+      <div class="grid sm:grid-cols-2 gap-6">
+        <div class="clean-card p-7">
+          <div class="text-4xl mb-5">🦷</div>
+          <h3 class="text-xl font-black mb-3">Лечение зубов</h3>
+          <p class="text-[#647067] leading-7">Кариес, реставрация, сохранение зубов.</p>
+        </div>
+        <div class="clean-card p-7 green-blob">
+          <div class="text-4xl mb-5">😁</div>
+          <h3 class="text-xl font-black mb-3">Эстетика улыбки</h3>
+          <p class="text-[#647067] leading-7">Отбеливание, виниры, естественная красота.</p>
+        </div>
+        <div class="clean-card p-7 green-blob">
+          <div class="text-4xl mb-5">🪥</div>
+          <h3 class="text-xl font-black mb-3">Гигиена</h3>
+          <p class="text-[#647067] leading-7">Профилактика, чистка и здоровье дёсен.</p>
+        </div>
+        <div class="clean-card p-7">
+          <div class="text-4xl mb-5">👶</div>
+          <h3 class="text-xl font-black mb-3">Детская стоматология</h3>
+          <p class="text-[#647067] leading-7">Бережный подход без страха.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal py-20 px-6 bg-white">
+    <div class="max-w-7xl mx-auto">
+      <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-12">
+        <div>
+          <p class="section-label mb-4">Команда</p>
+          <h2 class="text-4xl md:text-5xl font-black">Специалисты Zh.Stom</h2>
+        </div>
+        <a href="appointment.html" class="font-black text-[#65bd73] hover:underline underline-offset-4">Записаться к врачу →</a>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-7">
+        <div class="clean-card p-8">
+          <div class="doctor-photo mb-6">🦷</div>
+          <div class="doctor-card-content">
+            <h3 class="text-2xl font-black">Жанара Алимова</h3>
+            <p class="text-[#65bd73] font-black mt-1 mb-4">Стоматолог-терапевт</p>
+            <p class="text-[#647067] leading-7 mb-6">Лечение, реставрация и профилактика осложнений.</p>
+            <a href="appointment.html" data-doctor="Жанара Алимова" class="inline-flex bg-[#0b0f0d] text-white px-6 py-3 rounded-xl font-black hover:scale-105 transition">Записаться →</a>
+          </div>
+        </div>
+
+        <div class="clean-card p-8 black-card">
+          <div class="doctor-photo mb-6">＋</div>
+          <div class="doctor-card-content">
+            <span class="inline-flex px-3 py-1 rounded-full bg-[#65bd73] text-white text-xs font-black mb-4">Топ-специалист</span>
+            <h3 class="text-2xl font-black">Арман Сейтов</h3>
+            <p class="text-[#90df9d] font-black mt-1 mb-4">Хирург-имплантолог</p>
+            <p class="text-white/70 leading-7 mb-6">Имплантация и восстановление функции зубного ряда.</p>
+            <a href="appointment.html" data-doctor="Арман Сейтов" class="inline-flex bg-[#65bd73] text-white px-6 py-3 rounded-xl font-black hover:scale-105 transition">Записаться →</a>
+          </div>
+        </div>
+
+        <div class="clean-card p-8">
+          <div class="doctor-photo mb-6">⌁</div>
+          <div class="doctor-card-content">
+            <h3 class="text-2xl font-black">Диана Касымова</h3>
+            <p class="text-[#65bd73] font-black mt-1 mb-4">Ортодонт</p>
+            <p class="text-[#647067] leading-7 mb-6">Брекеты, элайнеры и эстетика улыбки.</p>
+            <a href="appointment.html" data-doctor="Диана Касымова" class="inline-flex bg-[#0b0f0d] text-white px-6 py-3 rounded-xl font-black hover:scale-105 transition">Записаться →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="reviews" class="reveal py-20 px-6 bg-[#f7fbf8]">
+    <div class="max-w-7xl mx-auto grid lg:grid-cols-[0.85fr_1.15fr] gap-8 items-stretch">
+      <div class="green-blob rounded-[34px] p-8 md:p-12">
+        <p class="section-label mb-4">Отзывы</p>
+        <h2 class="text-4xl md:text-5xl font-black leading-tight mb-6">Пациенты доверяют нам свою улыбку</h2>
+        <p class="text-[#647067] text-lg leading-8">Главное для нас — чтобы пациент чувствовал спокойствие, понимал план лечения и видел результат.</p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="clean-card p-8">
+          <p class="text-[#65bd73] text-2xl mb-4">★★★★★</p>
+          <p class="text-[#647067] leading-8 mb-6">Очень спокойный приём. Врач всё объяснил простым языком, без давления.</p>
+          <p class="font-black">Айдана</p>
+        </div>
+        <div class="clean-card p-8">
+          <p class="text-[#65bd73] text-2xl mb-4">★★★★★</p>
+          <p class="text-[#647067] leading-8 mb-6">Понравился сервис и чистота. Записался онлайн, всё прошло быстро.</p>
+          <p class="font-black">Ерлан</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+</main>
+
+<footer class="premium-footer px-6 py-16 md:py-20">
+  <div class="max-w-7xl mx-auto relative z-10">
+    <div class="footer-card p-8 md:p-10 mb-10">
+      <div class="grid lg:grid-cols-[1.15fr_0.85fr] gap-10 items-center">
+        <div>
+          <div class="inline-flex items-center gap-3 mb-6">
+            <div class="logo-mark">🦷</div>
+            <div>
+              <div class="text-3xl font-black tracking-tight leading-none">Zh.Stom</div>
+              <div class="text-white/50 text-sm mt-2">Стоматология нового поколения в Алматы</div>
+            </div>
+          </div>
+          <h2 class="text-4xl md:text-5xl font-black leading-tight tracking-tight mb-5">
+            Сделаем вашу улыбку здоровой и уверенной
+          </h2>
+          <p class="text-white/65 text-lg leading-8 max-w-2xl">
+            Запишитесь на консультацию — врач спокойно объяснит ситуацию, варианты лечения и дальнейший план.
+          </p>
+        </div>
+
+        <div class="lg:text-right">
+          <a href="appointment.html" class="inline-flex items-center justify-center bg-[#65bd73] text-white px-8 py-4 rounded-2xl font-black text-lg hover:scale-105 hover:shadow-xl hover:shadow-green-900/20 transition-all duration-300">
+            Записаться на приём →
+          </a>
+          <p class="text-white/45 font-semibold mt-5">Ежедневно с 9:00 до 21:00</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 pb-10 border-b border-white/10">
+      <div>
+        <h3 class="font-black text-lg mb-5">Навигация</h3>
+        <div class="space-y-3">
+          <a href="index.html" class="footer-link">Главная</a><br>
+          <a href="services.html" class="footer-link">Услуги</a><br>
+          <a href="about.html" class="footer-link">О клинике</a><br>
+          <a href="contacts.html" class="footer-link">Контакты</a>
+        </div>
+      </div>
+
+      <div>
+        <h3 class="font-black text-lg mb-5">Услуги</h3>
+        <div class="space-y-3">
+          <a href="services.html" class="footer-link">Лечение зубов</a><br>
+          <a href="services.html" class="footer-link">Профессиональная гигиена</a><br>
+          <a href="services.html" class="footer-link">Эстетика улыбки</a><br>
+          <a href="services.html" class="footer-link">Имплантация</a>
+        </div>
+      </div>
+
+      <div>
+        <h3 class="font-black text-lg mb-5">Контакты</h3>
+        <div class="space-y-4">
+          <a href="tel:+77473599407" class="flex gap-3 group">
+            <span class="footer-dot">☎</span>
+            <span>
+              <span class="block text-white font-black group-hover:text-[#90df9d] transition">+7 747 359 9407</span>
+              <span class="block text-white/45 text-sm mt-1">Позвонить в клинику</span>
+            </span>
+          </a>
+          <div class="flex gap-3">
+            <span class="footer-dot">⌂</span>
+            <span>
+              <span class="block text-white font-black">Алматы, ул. Ади Шарипова, 34А</span>
+              <span class="block text-white/45 text-sm mt-1">Городская стоматология</span>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <h3 class="font-black text-lg mb-5">График</h3>
+        <div class="space-y-3 text-white/65 font-semibold">
+          <div class="flex justify-between gap-4">
+            <span>Пн–Пт</span>
+            <span class="text-white">9:00–21:00</span>
+          </div>
+          <div class="flex justify-between gap-4">
+            <span>Сб–Вс</span>
+            <span class="text-white">10:00–20:00</span>
+          </div>
+          <div class="mt-5 inline-flex px-4 py-2 rounded-full bg-white/10 text-[#90df9d] font-black text-sm">
+            Онлайн-запись открыта
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex flex-col md:flex-row items-center justify-between gap-4 pt-8 text-white/45 font-semibold">
+      <p>© 2026 Zh.Stom. Все права защищены.</p>
+      <p>Стоматология нового уровня в Алматы</p>
+    </div>
+  </div>
+</footer>
+
+<div id="chatbot" class="fixed bottom-6 right-6 z-50">
+  <button id="chatToggle" class="w-16 h-16 rounded-full bg-[#65bd73] text-white flex items-center justify-center text-2xl shadow-xl hover:scale-105 transition duration-300">
+    💬
+  </button>
+
+  <div id="chatWindow" class="hidden mt-4 w-80 bg-white rounded-3xl shadow-2xl overflow-hidden">
+    <div class="bg-[#65bd73] text-white px-5 py-4 font-semibold">
+      Помощник Zh.Stom
+    </div>
+
+    <div id="chatMessages" class="p-4 space-y-3 text-sm text-gray-700 h-56 overflow-y-auto">
+      <div class="bg-[#eaf8ee] rounded-xl p-3">
+        👋 Здравствуйте! Я помощник Zh.Stom. Чем могу помочь?
+      </div>
+    </div>
+
+    <div id="chatInputWrapper" class="border-t p-3 hidden">
+      <div class="flex items-center gap-2">
+        <input
+          id="chatInput"
+          type="text"
+          placeholder="Введите имя или номер телефона для записи"
+          class="flex-1 px-3 py-2 text-sm border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#65bd73]"
+        />
+        <button id="chatSend" class="bg-[#65bd73] text-white px-4 py-2 rounded-xl hover:bg-[#4fa35d] transition">
+          ➤
+        </button>
+      </div>
+    </div>
+
+    <div class="p-3 border-t flex gap-2">
+      <button type="button" class="quick-btn" data-chat-reply="Для записи нажмите кнопку «Записаться на приём» на сайте или позвоните по номеру +7 747 359 9407.">Запись</button>
+      <button type="button" class="quick-btn" data-chat-reply="В Zh.Stom доступны лечение зубов, эстетическая стоматология, гигиена, детская стоматология и консультации специалистов.">Услуги</button>
+      <button type="button" class="quick-btn" data-chat-reply="Точные цены зависят от консультации и плана лечения. Позже мы подключим отдельную базу для Zh.Stom.">Цены</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const secretAdminTrigger = document.getElementById('secretAdminTrigger');
+
+  let adminClicks = 0;
+  let clickTimer;
+
+  if (secretAdminTrigger) {
+    secretAdminTrigger.addEventListener('click', (event) => {
+      event.preventDefault();
+
+      adminClicks++;
+
+      clearTimeout(clickTimer);
+
+      clickTimer = setTimeout(() => {
+        adminClicks = 0;
+      }, 1500);
+
+      if (adminClicks >= 3) {
+        const pin = prompt('Введите PIN-код');
+
+        if (pin === '7777') {
+          window.location.href = 'admin.html';
+        } else {
+          alert('Неверный PIN-код');
+        }
+
+        adminClicks = 0;
+      }
+    });
+  }
+</script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const chatToggle = document.getElementById('chatToggle');
+    const chatWindow = document.getElementById('chatWindow');
+    const chatMessages = document.getElementById('chatMessages');
+    const chatInputWrapper = document.getElementById('chatInputWrapper');
+    const chatInput = document.getElementById('chatInput');
+    const chatSend = document.getElementById('chatSend');
+
+    const addMessage = (text, isUser = false) => {
+      if (!chatMessages) return;
+
+      const message = document.createElement('div');
+      message.className = isUser
+        ? 'ml-auto max-w-[85%] bg-[#65bd73] text-white rounded-xl p-3'
+        : 'max-w-[85%] bg-[#eaf8ee] text-gray-700 rounded-xl p-3';
+      message.textContent = text;
+      chatMessages.appendChild(message);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    };
+
+    if (chatToggle && chatWindow) {
+      chatToggle.addEventListener('click', () => {
+        chatWindow.classList.toggle('hidden');
+      });
+    }
+
+    document.querySelectorAll('[data-chat-reply]').forEach(button => {
+      button.addEventListener('click', () => {
+        addMessage(button.textContent.trim(), true);
+        addMessage(button.dataset.chatReply);
+      });
+    });
+
+    if (chatSend && chatInput) {
+      chatSend.addEventListener('click', () => {
+        const value = chatInput.value.trim();
+        if (!value) return;
+
+        addMessage(value, true);
+        addMessage('Спасибо! Сейчас чат работает без подключения к базе данных. Для записи используйте кнопку «Записаться на приём».');
+        chatInput.value = '';
+      });
+
+      chatInput.addEventListener('keydown', event => {
+        if (event.key === 'Enter') {
+          chatSend.click();
+        }
+      });
+    }
+
+    if (chatInputWrapper) {
+      chatInputWrapper.classList.remove('hidden');
+    }
+  });
+</script>
+<script>
+  const siteHeader = document.getElementById('siteHeader');
+
+  if (siteHeader) {
+    const updateHeaderState = () => {
+      if (window.scrollY > 12) {
+        siteHeader.classList.add('scrolled');
+      } else {
+        siteHeader.classList.remove('scrolled');
+      }
+    };
+
+    updateHeaderState();
+    window.addEventListener('scroll', updateHeaderState, { passive: true });
+  }
+</script>
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('active');
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
+
+    reveals.forEach(el => observer.observe(el));
+  } else {
+    reveals.forEach(el => el.classList.add('active'));
+  }
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('[data-doctor]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        sessionStorage.setItem('selectedDoctor', btn.dataset.doctor);
+      });
+    });
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,680 @@
+
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Запись на приём — Zh.Stom</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --green: #65bd73;
+      --green-light: #eaf8ee;
+      --black: #0b0f0d;
+      --muted: #647067;
+      --line: rgba(15, 23, 42, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      background: #ffffff;
+      color: var(--black);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      overflow-x: hidden;
+    }
+
+    a, button { -webkit-tap-highlight-color: transparent; }
+    a { text-decoration: none; }
+
+    .site-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(15, 23, 42, 0.07);
+      transition: box-shadow 0.3s ease, background 0.3s ease;
+    }
+
+    .site-header.scrolled {
+      background: rgba(255, 255, 255, 0.98);
+      box-shadow: 0 18px 45px rgba(15, 23, 42, 0.08);
+    }
+
+    .logo-mark {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #a8e6b0, #56b96b);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 24px;
+      font-weight: 900;
+      box-shadow: 0 12px 28px rgba(101, 189, 115, 0.28);
+      flex: 0 0 auto;
+    }
+
+    .nav-link {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      color: #0b0f0d;
+      font-size: 14px;
+      font-weight: 700;
+      white-space: nowrap;
+      line-height: 1;
+      transition: color 0.25s ease;
+    }
+
+    .nav-arrow {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 12px;
+      height: 12px;
+      font-size: 11px;
+      transform: translateY(1px);
+    }
+
+    .nav-link::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -8px;
+      width: 0;
+      height: 2px;
+      border-radius: 999px;
+      background: var(--green);
+      transition: width 0.25s ease;
+    }
+
+    .nav-link:hover,
+    .nav-link.active { color: var(--green); }
+
+    .nav-link:hover::after,
+    .nav-link.active::after { width: 100%; }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding-top: 132px;
+      padding-bottom: 94px;
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 86% 18%, rgba(101, 189, 115, 0.16), transparent 29%),
+        radial-gradient(circle at 9% 76%, rgba(101, 189, 115, 0.10), transparent 28%),
+        linear-gradient(180deg, #ffffff 0%, #fbfffc 100%);
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      right: -220px;
+      bottom: -220px;
+      width: 620px;
+      height: 620px;
+      border-radius: 50%;
+      border: 1px solid rgba(101, 189, 115, 0.20);
+      box-shadow: inset 0 0 0 36px rgba(101, 189, 115, 0.04), inset 0 0 0 78px rgba(101, 189, 115, 0.025);
+      pointer-events: none;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 16px;
+      border-radius: 999px;
+      background: var(--green-light);
+      color: #2d7f3d;
+      font-weight: 900;
+      font-size: 14px;
+      line-height: 1;
+    }
+
+    .form-card,
+    .info-card {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 34px;
+      background: rgba(255, 255, 255, 0.92);
+      box-shadow: 0 30px 90px rgba(15, 23, 42, 0.08);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+    }
+
+    .form-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 5px;
+      background: linear-gradient(90deg, #65bd73, rgba(101, 189, 115, 0.18));
+    }
+
+    .field-label {
+      display: block;
+      color: #0b0f0d;
+      font-weight: 900;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .field-input {
+      width: 100%;
+      min-height: 54px;
+      border: 1px solid rgba(15, 23, 42, 0.10);
+      border-radius: 18px;
+      padding: 0 18px;
+      background: #ffffff;
+      color: #0b0f0d;
+      font-weight: 700;
+      outline: none;
+      transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+    }
+
+    textarea.field-input {
+      min-height: 132px;
+      padding-top: 16px;
+      resize: vertical;
+    }
+
+    .field-input:focus {
+      border-color: rgba(101, 189, 115, 0.70);
+      box-shadow: 0 0 0 5px rgba(101, 189, 115, 0.12);
+      transform: translateY(-1px);
+    }
+
+    .submit-btn {
+      width: 100%;
+      min-height: 58px;
+      border: 0;
+      border-radius: 18px;
+      background: #65bd73;
+      color: white;
+      font-weight: 900;
+      font-size: 16px;
+      cursor: pointer;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, opacity 0.25s ease;
+      box-shadow: 0 18px 45px rgba(101, 189, 115, 0.25);
+    }
+
+    .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 24px 55px rgba(101, 189, 115, 0.32); }
+    .submit-btn:disabled { opacity: 0.65; cursor: not-allowed; transform: none; }
+
+    .contact-icon {
+      width: 52px;
+      height: 52px;
+      min-width: 52px;
+      border-radius: 18px;
+      background: var(--green-light);
+      color: var(--green);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 23px;
+      box-shadow: inset 0 0 0 1px rgba(101, 189, 115, 0.16);
+    }
+
+    .schedule-note {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      padding: 16px;
+      border-radius: 22px;
+      background: #f4fbf6;
+      border: 1px solid rgba(101, 189, 115, 0.16);
+      color: #2d7f3d;
+      font-weight: 800;
+      line-height: 1.6;
+    }
+
+    .schedule-note span {
+      width: 34px;
+      height: 34px;
+      min-width: 34px;
+      border-radius: 12px;
+      background: #65bd73;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 17px;
+    }
+
+    .toast {
+      position: fixed;
+      right: 22px;
+      top: 96px;
+      z-index: 2000;
+      max-width: 390px;
+      padding: 18px 20px;
+      border-radius: 22px;
+      background: rgba(11, 15, 13, 0.94);
+      color: white;
+      box-shadow: 0 28px 70px rgba(15, 23, 42, 0.25);
+      opacity: 0;
+      transform: translateY(-14px);
+      pointer-events: none;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .premium-footer {
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 86% 16%, rgba(101, 189, 115, 0.24), transparent 28%),
+        radial-gradient(circle at 12% 82%, rgba(101, 189, 115, 0.14), transparent 26%),
+        linear-gradient(135deg, #070b0a 0%, #111b15 48%, #07100a 100%);
+      color: white;
+    }
+
+    .premium-footer::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
+      background-size: 54px 54px;
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,0.55), transparent 78%);
+      pointer-events: none;
+    }
+
+    .footer-card {
+      position: relative;
+      z-index: 1;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.055);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-radius: 30px;
+      box-shadow: 0 30px 90px rgba(0, 0, 0, 0.20);
+    }
+
+    .footer-link {
+      display: inline-flex;
+      color: rgba(255,255,255,0.68);
+      font-weight: 700;
+      transition: .25s ease;
+    }
+
+    .footer-link:hover { color: #90df9d; transform: translateX(4px); }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+
+    .reveal.active { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 1120px) {
+      .desktop-nav,
+      .desktop-contact { display: none; }
+    }
+
+    @media (max-width: 768px) {
+      .site-header .max-w-7xl {
+        height: 72px;
+        padding-left: 18px;
+        padding-right: 18px;
+      }
+
+      .logo-mark {
+        width: 42px;
+        height: 42px;
+        font-size: 21px;
+      }
+
+      .hero {
+        padding-top: 104px;
+        padding-bottom: 64px;
+      }
+
+      .toast {
+        left: 16px;
+        right: 16px;
+        top: 86px;
+        max-width: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="site-header" id="siteHeader">
+    <div class="max-w-7xl mx-auto px-6 h-[78px] flex items-center justify-between gap-5">
+      <a href="index.html" class="flex items-center gap-3" id="secretAdminTrigger">
+        <div class="logo-mark">🦷</div>
+        <div>
+          <div class="text-2xl font-black tracking-tight leading-none">Zh.Stom</div>
+          <div class="text-[11px] text-gray-500 mt-1 whitespace-nowrap">Стоматология нового поколения</div>
+        </div>
+      </a>
+
+      <nav class="desktop-nav flex items-center gap-5">
+        <a href="index.html" class="nav-link">Главная</a>
+        <a href="services.html" class="nav-link">Услуги <span class="nav-arrow">▾</span></a>
+        <a href="about.html" class="nav-link">О клинике <span class="nav-arrow">▾</span></a>
+        <a href="contacts.html" class="nav-link">Контакты</a>
+      </nav>
+
+      <div class="desktop-contact flex items-center gap-3 shrink-0">
+        <a href="tel:+77473599407" class="flex items-center gap-2 shrink-0 whitespace-nowrap">
+          <span class="w-9 h-9 rounded-full bg-[#eaf8ee] text-[#65bd73] flex items-center justify-center shrink-0">☎</span>
+          <span class="flex flex-col leading-none whitespace-nowrap">
+            <span class="block font-black text-[13px] whitespace-nowrap">+7 747 359 9407</span>
+            <span class="block text-[11px] text-gray-500 mt-1 whitespace-nowrap">Ежедневно 9:00–21:00</span>
+          </span>
+        </a>
+        <a href="appointment.html" class="px-4 py-3 rounded-xl border border-[#65bd73] text-[#65bd73] font-black text-sm whitespace-nowrap hover:bg-[#65bd73] hover:text-white transition">
+          Записаться на приём
+        </a>
+      </div>
+
+      <a href="appointment.html" class="lg:hidden px-4 py-2 rounded-xl bg-[#65bd73] text-white font-black text-sm">Запись</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="max-w-7xl mx-auto px-6 relative z-10">
+        <div class="grid lg:grid-cols-[0.95fr_1.05fr] gap-12 items-start">
+          <div class="reveal lg:sticky lg:top-28">
+            <div class="badge mb-7">✦ Онлайн-запись</div>
+            <h1 class="text-5xl md:text-7xl font-black leading-[0.95] tracking-tight mb-7">
+              Запишитесь<br>
+              на приём<br>
+              <span class="text-[#65bd73]">в Zh.Stom</span>
+            </h1>
+            <p class="text-xl text-[#647067] leading-8 max-w-2xl mb-8">
+              Оставьте заявку — администратор увидит запись в системе и свяжется с вами для подтверждения времени.
+            </p>
+
+            <div class="info-card p-6 space-y-5">
+              <div class="flex gap-4">
+                <div class="contact-icon">☎</div>
+                <div>
+                  <div class="font-black text-lg">Телефон и WhatsApp</div>
+                  <a href="tel:+77473599407" class="text-[#65bd73] font-black mt-1 inline-flex">+7 747 359 9407</a>
+                </div>
+              </div>
+              <div class="flex gap-4">
+                <div class="contact-icon">⌂</div>
+                <div>
+                  <div class="font-black text-lg">Адрес</div>
+                  <div class="text-[#647067] font-semibold mt-1">Алматы, ул. Ади Шарипова, 34А</div>
+                </div>
+              </div>
+              <div class="flex gap-4">
+                <div class="contact-icon">⏰</div>
+                <div>
+                  <div class="font-black text-lg">График</div>
+                  <div class="text-[#647067] font-semibold mt-1">Ежедневно с 9:00 до 21:00</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-card p-7 md:p-10 reveal">
+            <div class="badge mb-6">Заявка поступит администратору</div>
+            <h2 class="text-3xl md:text-4xl font-black tracking-tight mb-3">Данные для записи</h2>
+            <p class="text-[#647067] leading-8 mb-8">Заполните поля ниже. Чем точнее данные, тем быстрее администратор сможет подобрать удобное время.</p>
+
+            <form id="appointmentForm" class="space-y-5">
+              <div class="grid md:grid-cols-2 gap-5">
+                <div>
+                  <label class="field-label" for="name">Ваше имя *</label>
+                  <input class="field-input" id="name" name="name" type="text" placeholder="Например: Мустафа" required>
+                </div>
+
+                <div>
+                  <label class="field-label" for="phone">Телефон *</label>
+                  <input class="field-input" id="phone" name="phone" type="tel" placeholder="+7 777 000 00 00" required>
+                </div>
+              </div>
+
+              <div class="grid md:grid-cols-2 gap-5">
+                <div>
+                  <label class="field-label" for="service">Услуга</label>
+                  <select class="field-input" id="service" name="service">
+                    <option value="Консультация">Консультация</option>
+                    <option value="Лечение зубов">Лечение зубов</option>
+                    <option value="Профессиональная гигиена">Профессиональная гигиена</option>
+                    <option value="Эстетическая стоматология">Эстетическая стоматология</option>
+                    <option value="Имплантация">Имплантация</option>
+                    <option value="Ортодонтия">Ортодонтия</option>
+                    <option value="Протезирование">Протезирование</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label class="field-label" for="doctor">Врач</label>
+                  <select class="field-input" id="doctor" name="doctor">
+                    <option value="Любой специалист">Любой специалист</option>
+                    <option value="Жанара Алимова">Жанара Алимова — стоматолог-терапевт</option>
+                    <option value="Арман Сейтов">Арман Сейтов — хирург-имплантолог</option>
+                    <option value="Диана Касымова">Диана Касымова — ортодонт</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="grid md:grid-cols-2 gap-5">
+                <div>
+                  <label class="field-label" for="appointment_date">Дата приёма</label>
+                  <input class="field-input" id="appointment_date" name="appointment_date" type="date">
+                </div>
+
+                <div>
+                  <label class="field-label" for="appointment_time">Время приёма</label>
+                  <select class="field-input" id="appointment_time" name="appointment_time">
+                    <option value="">Выберите время</option>
+                    <option value="09:00">09:00</option>
+                    <option value="10:00">10:00</option>
+                    <option value="11:00">11:00</option>
+                    <option value="12:00">12:00</option>
+                    <option value="13:00">13:00</option>
+                    <option value="14:00">14:00</option>
+                    <option value="15:00">15:00</option>
+                    <option value="16:00">16:00</option>
+                    <option value="17:00">17:00</option>
+                    <option value="18:00">18:00</option>
+                    <option value="19:00">19:00</option>
+                    <option value="20:00">20:00</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="schedule-note">
+                <span>ℹ</span>
+                <div>
+                  Если выбранное время будет занято, администратор предложит ближайший удобный вариант.
+                </div>
+              </div>
+
+              <div>
+                <label class="field-label" for="message">Комментарий</label>
+                <textarea class="field-input" id="message" name="message" placeholder="Напишите, что беспокоит или какой день удобен"></textarea>
+              </div>
+
+              <button class="submit-btn" id="submitBtn" type="submit">Отправить заявку →</button>
+
+              <p class="text-[#647067] text-sm leading-6">
+                Нажимая кнопку, вы отправляете заявку администратору Zh.Stom. После этого с вами свяжутся для подтверждения записи.
+              </p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="premium-footer px-6 py-16 md:py-20">
+    <div class="max-w-7xl mx-auto relative z-10">
+      <div class="footer-card p-8 md:p-10 mb-10">
+        <div class="grid lg:grid-cols-[1.15fr_0.85fr] gap-10 items-center">
+          <div>
+            <div class="inline-flex items-center gap-3 mb-6">
+              <div class="logo-mark">🦷</div>
+              <div>
+                <div class="text-3xl font-black tracking-tight leading-none">Zh.Stom</div>
+                <div class="text-white/50 text-sm mt-2">Стоматология нового поколения в Алматы</div>
+              </div>
+            </div>
+            <h2 class="text-4xl md:text-5xl font-black leading-tight tracking-tight mb-5">Заявка сразу поступит администратору</h2>
+            <p class="text-white/65 text-lg leading-8 max-w-2xl">После отправки формы запись сохранится в базе данных и появится в админ-панели.</p>
+          </div>
+
+          <div class="lg:text-right">
+            <a href="tel:+77473599407" class="inline-flex items-center justify-center bg-[#65bd73] text-white px-8 py-4 rounded-2xl font-black text-lg hover:scale-105 hover:shadow-xl hover:shadow-green-900/20 transition-all duration-300">
+              Позвонить →
+            </a>
+            <p class="text-white/45 font-semibold mt-5">+7 747 359 9407</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex flex-col md:flex-row items-center justify-between gap-4 pt-2 text-white/45 font-semibold">
+        <p>© 2026 Zh.Stom. Все права защищены.</p>
+        <p>Алматы, ул. Ади Шарипова, 34А</p>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast">
+    <div class="font-black text-lg mb-1" id="toastTitle">Заявка отправлена</div>
+    <div class="text-white/70 leading-6" id="toastText">Администратор скоро свяжется с вами.</div>
+  </div>
+
+  <script>
+    const siteHeader = document.getElementById('siteHeader');
+
+    if (siteHeader) {
+      const updateHeaderState = () => {
+        if (window.scrollY > 12) {
+          siteHeader.classList.add('scrolled');
+        } else {
+          siteHeader.classList.remove('scrolled');
+        }
+      };
+
+      updateHeaderState();
+      window.addEventListener('scroll', updateHeaderState, { passive: true });
+    }
+
+    const reveals = document.querySelectorAll('.reveal');
+
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('active');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15 });
+
+      reveals.forEach(el => observer.observe(el));
+    } else {
+      reveals.forEach(el => el.classList.add('active'));
+    }
+
+    const form = document.getElementById('appointmentForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const toast = document.getElementById('toast');
+    const toastTitle = document.getElementById('toastTitle');
+    const toastText = document.getElementById('toastText');
+    const appointmentDateInput = document.getElementById('appointment_date');
+
+    if (appointmentDateInput) {
+      const today = new Date();
+      const yyyy = today.getFullYear();
+      const mm = String(today.getMonth() + 1).padStart(2, '0');
+      const dd = String(today.getDate()).padStart(2, '0');
+      appointmentDateInput.min = `${yyyy}-${mm}-${dd}`;
+    }
+
+    const showToast = (title, text) => {
+      toastTitle.textContent = title;
+      toastText.textContent = text;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 4200);
+    };
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+
+      const formData = new FormData(form);
+      const name = formData.get('name').trim();
+      const phone = formData.get('phone').trim();
+      const service = formData.get('service');
+      const doctor = formData.get('doctor');
+      const appointmentDate = formData.get('appointment_date');
+      const appointmentTime = formData.get('appointment_time');
+      const message = formData.get('message').trim();
+
+      if (!name || !phone) {
+        showToast('Заполните поля', 'Имя и телефон обязательны для записи.');
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Отправляем...';
+
+      try {
+        const response = await fetch('/api/appointments', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            name,
+            phone,
+            service,
+            doctor,
+            appointment_date: appointmentDate,
+            appointment_time: appointmentTime,
+            message
+          })
+        });
+
+        const result = await response.json();
+
+        if (!response.ok || !result.success) {
+          throw new Error(result.error || 'Ошибка отправки заявки');
+        }
+
+        form.reset();
+        showToast('Заявка отправлена', 'Администратор скоро увидит запись и свяжется с вами.');
+      } catch (error) {
+        showToast('Не удалось отправить', 'Проверьте, запущен ли сервер: http://localhost:3000');
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Отправить заявку →';
+      }
+    });
+  </script>
+</body>
+</html>
