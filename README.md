@@ -30,9 +30,9 @@ Modern dental clinic website built with HTML, CSS, JavaScript, Node.js, Express,
 
 ![Appointment](assets/appointment.png)
 
-### Admin Panel
+### Contacts
 
-![Admin](assets/admin.png)
+![Admin](assets/contacts.png)
 
 ## 🚀 Installation
 
